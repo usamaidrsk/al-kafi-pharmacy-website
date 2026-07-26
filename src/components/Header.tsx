@@ -18,7 +18,7 @@ import Brand from "./Brand";
 const navGroups = [
   {
     label: "About",
-    activeIds: ["trust", "visit"],
+    activeIds: ["visit"],
     items: [
       {
         label: "About Alkaafi",
