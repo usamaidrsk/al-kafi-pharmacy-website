@@ -1,0 +1,205 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 9rem;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+}
+
+a,
+button,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: rgba(213, 169, 78, 0.22);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(213, 169, 78, 0.88);
+  outline-offset: 4px;
+}
+
+.site-header {
+  background: rgba(250, 245, 239, 0.88);
+  border-color: rgba(1, 46, 32, 0.08);
+  backdrop-filter: blur(16px);
+}
+
+.site-header[data-scrolled="true"] {
+  background: rgba(250, 245, 239, 0.96);
+  border-color: rgba(1, 46, 32, 0.12);
+  box-shadow: 0 16px 50px rgba(1, 46, 32, 0.08);
+}
+
+::selection {
+  background: rgba(213, 169, 78, 0.28);
+}
+
+code {
+  font-family: "GeistMono", monospace;
+}
+
+@font-face {
+  font-family: "GeistMono";
+  src: url("./fonts/GeistMonoVF.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("./fonts/GeistVF.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@layer base {
+  :root {
+    --background: 33 57% 96%;
+    --foreground: 162 96% 9%;
+    --card: 0 0% 100%;
+    --card-foreground: 162 96% 9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 162 96% 9%;
+    --primary: 162 96% 9%;
+    --primary-foreground: 33 57% 96%;
+    --secondary: 46 26% 70%;
+    --secondary-foreground: 162 96% 9%;
+    --muted: 37 35% 92%;
+    --muted-foreground: 158 21% 28%;
+    --accent: 39 62% 57%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 42 30% 84%;
+    --input: 42 30% 84%;
+    --ring: 162 96% 9%;
+    --radius: 1rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family:
+      Montserrat,
+      Lato,
+      "Avenir Next",
+      "Geist",
+      sans-serif;
+    background: linear-gradient(180deg, #faf5ef 0%, #f2eadc 52%, #fffdfa 100%);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family:
+      Cinzel,
+      "Trajan Pro",
+      "Playfair Display",
+      "Iowan Old Style",
+      Georgia,
+      serif;
+  }
+}
+
+@layer utilities {
+  .section-kicker {
+    @apply inline-flex rounded-full border bg-white/90 px-4 py-2 text-xs font-black uppercase tracking-[0.24em];
+    border-color: rgba(213, 169, 78, 0.32);
+    color: rgba(1, 46, 32, 0.82);
+  }
+
+  .surface-card {
+    @apply rounded-[2rem] border bg-white shadow-[0_24px_60px_rgba(1,46,32,0.08)];
+    border-color: rgba(1, 46, 32, 0.08);
+  }
+
+  .float-slow {
+    animation: float-slow 8s ease-in-out infinite;
+  }
+
+  .brand-title {
+    font-family:
+      Cinzel,
+      "Trajan Pro",
+      "Playfair Display",
+      "Iowan Old Style",
+      "Palatino Linotype",
+      "Book Antiqua",
+      Georgia,
+      serif;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .brand-display {
+    font-family:
+      Cinzel,
+      "Trajan Pro",
+      "Playfair Display",
+      "Iowan Old Style",
+      Georgia,
+      serif;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .brand-subtitle {
+    color: #d5a94e;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+  }
+
+  .brand-motto {
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (scripting: none) {
+  [style*="opacity:0"],
+  [style*="opacity: 0"] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
