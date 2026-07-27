@@ -1,5 +1,5 @@
 export const business = {
-  legalName: "AL KAAFI PHARMACY",
+  legalName: "Al Kaafi Pharmacy Limited",
   displayName: "Al Kaafi Pharmacy",
   wordmark: "AL KAAFI",
   tagline: "Care • Trust • Wellness",

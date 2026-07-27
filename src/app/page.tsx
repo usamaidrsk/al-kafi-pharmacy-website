@@ -21,6 +21,7 @@ import {
   Sparkles,
   Stethoscope,
 } from "lucide-react";
+import NewsletterForm from "@/components/NewsletterForm";
 import { business } from "@/data/business";
 
 const heroSlides = [
@@ -31,7 +32,7 @@ const heroSlides = [
     cta: "See categories",
     href: "#categories",
     image: "/images/alkaafi-storefront.jpeg",
-    imageAlt: "Al Kaafi Pharmacy storefront with green and gold signage",
+    imageAlt: "Architectural design concept for Al Kaafi Pharmacy storefront with green and gold signage",
   },
   {
     eyebrow: "Speak to the pharmacy team",
@@ -40,7 +41,7 @@ const heroSlides = [
     cta: "Consult pharmacist",
     href: "/consultation/",
     image: "/images/alkaafi-interior.jpeg",
-    imageAlt: "Al Kaafi Pharmacy dispensing counter and consultation area",
+    imageAlt: "Architectural design concept for Al Kaafi Pharmacy dispensing counter and consultation area",
   },
   {
     eyebrow: "Care, trust, wellness",
@@ -49,7 +50,7 @@ const heroSlides = [
     cta: "View store details",
     href: "#visit",
     image: "/images/alkaafi-storefront.jpeg",
-    imageAlt: "Al Kaafi Pharmacy storefront entrance and medicine shelves",
+    imageAlt: "Architectural design concept for Al Kaafi Pharmacy storefront entrance and medicine shelves",
   },
 ];
 
@@ -337,6 +338,12 @@ export default function HomePage() {
               />
             ))}
           </motion.div>
+          <motion.p
+            variants={revealUp}
+            className="mt-6 max-w-fit rounded-full border border-white/15 bg-[#012e20]/55 px-4 py-2 text-xs font-semibold text-[#faf5ef]/78 backdrop-blur"
+          >
+            Architectural design concept; actual premises may differ.
+          </motion.p>
         </motion.div>
       </section>
 
@@ -502,11 +509,14 @@ export default function HomePage() {
           <motion.div variants={revealUp} className="relative overflow-hidden rounded-3xl">
             <Image
               src="/images/alkaafi-interior.jpeg"
-              alt="Al Kaafi Pharmacy interior with consultation room, prescriptions shelf, and wellness section"
+              alt="Architectural design concept for Al Kaafi Pharmacy interior with consultation room, prescriptions shelf, and wellness section"
               width={1200}
               height={900}
               className="aspect-[4/3] w-full object-cover"
             />
+            <p className="absolute bottom-4 left-4 rounded-full bg-[#012e20]/78 px-4 py-2 text-xs font-semibold text-white backdrop-blur">
+              Architectural design concept; actual premises may differ.
+            </p>
           </motion.div>
         </motion.div>
       </section>
@@ -640,16 +650,12 @@ export default function HomePage() {
               Subscribe for more
             </p>
             <p className="mt-3 text-sm leading-7 text-[#faf5ef]/72">
-              Newsletter signup will be connected after the pharmacy approves
-              the mailing-list provider, consent wording, and retention process.
+              Join the mailing list for useful health tips, store notices, and
+              medicine-safety reminders.
             </p>
-            <Link
-              href="/contact/"
-              className="mt-5 inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#d5a94e] px-5 text-sm font-black text-[#012e20] transition hover:bg-[#f0c76b]"
-            >
-              Send a store enquiry
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+            <div className="mt-5">
+              <NewsletterForm source="homepage" inverse />
+            </div>
           </motion.div>
         </motion.div>
       </section>

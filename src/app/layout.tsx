@@ -97,6 +97,7 @@ const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Pharmacy",
   name: siteName,
+  legalName: business.legalName,
   url: siteUrl,
   logo: `${siteUrl}/alkaafi-logo.jpeg`,
   description: siteDescription,

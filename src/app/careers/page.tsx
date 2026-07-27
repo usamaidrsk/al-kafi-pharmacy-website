@@ -29,7 +29,7 @@ export default function CareersPage() {
         },
         {
           title: "Responsible publishing",
-          body: "Only owner-approved roles, requirements, and application channels should be published here.",
+          body: "Only confirmed roles, requirements, and application channels will be published here.",
         },
       ]}
       ctaLabel="Contact the pharmacy"

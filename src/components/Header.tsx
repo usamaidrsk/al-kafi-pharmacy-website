@@ -53,14 +53,9 @@ const navGroups = [
         description: "Dispensing, product checks, and counter guidance.",
       },
       {
-        label: "Consult pharmacist",
-        href: "/consultation/",
-        description: "Ask about dosage, timing, side effects, and safe use.",
-      },
-      {
         label: "Prescription portal",
         href: "/prescription-portal/",
-        description: "A separate secure pathway for prescriptions when approved.",
+        description: "How prescription files are handled outside public forms.",
       },
     ],
   },

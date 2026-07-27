@@ -37,10 +37,22 @@ name as `al_kaafi_public` because the Worker reads the database through `env.al_
 ]
 ```
 
-Apply the migration:
+Apply the migrations:
 
 ```bash
 npm run db:remote
+```
+
+The D1 database stores:
+
+- `public_enquiries`: contact and pharmacist-consultation submissions.
+- `newsletter_subscribers`: newsletter subscriptions from the homepage and footer.
+
+Useful production checks:
+
+```bash
+WRANGLER_WRITE_LOGS=false npx wrangler d1 execute al-kaafi-public --remote --command "SELECT enquiry_type, full_name, email, phone, topic, created_at FROM public_enquiries ORDER BY created_at DESC LIMIT 20;"
+WRANGLER_WRITE_LOGS=false npx wrangler d1 execute al-kaafi-public --remote --command "SELECT email, full_name, source, status, created_at, updated_at FROM newsletter_subscribers ORDER BY updated_at DESC LIMIT 20;"
 ```
 
 ## Email notifications
@@ -49,6 +61,7 @@ Public form submissions are stored in D1 first, then emailed in the background:
 
 - `/contact/` notifications go to `feedback@alkaafipharmacy.com`
 - `/consultation/` notifications go to `rx@alkaafipharmacy.com`
+- Newsletter signup notifications go to `feedback@alkaafipharmacy.com`
 - Notification sender: `feedback@alkaafipharmacy.com`
 
 Enable Cloudflare Email Sending before expecting notifications:
@@ -98,8 +111,8 @@ Create one production Cloudflare Turnstile widget:
 - Name: `Al Kaafi Pharmacy public forms`
 - Widget type: Managed
 - Hostnames: `alkaafipharmacy.com`, `www.alkaafipharmacy.com`
-- Used on: `/contact/` and `/consultation/`
-- Frontend actions: `contact`, `consultation`
+- Used on: `/contact/`, `/consultation/`, homepage newsletter, and footer newsletter
+- Frontend actions: `contact`, `consultation`, `newsletter`
 
 Use the production widget's site key as the GitHub Actions variable:
 
@@ -167,10 +180,13 @@ Token resources:
 
 ```bash
 npm run build
+npm run db:remote
 npm run deploy
 ```
 
-The GitHub workflow `.github/workflows/cloudflare-workers-deploy.yml` deploys on pushes to `main`.
+The GitHub workflow `.github/workflows/cloudflare-workers-deploy.yml` deploys on
+pushes to `main`. It runs `npm run db:remote` before `npm run deploy:worker` so
+new D1 migrations are applied before the Worker starts using new tables.
 
 ## Domain and DNS
 
@@ -216,3 +232,7 @@ The public forms are intentionally low-risk. They must not be used for:
 - Payment-card information
 
 Prescription workflows should remain a separate secured application and data boundary.
+
+Newsletter signup only collects an email address, optional name, consent
+confirmation, source page, limited browser metadata, and Turnstile verification
+data.

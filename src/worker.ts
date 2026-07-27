@@ -42,6 +42,7 @@ type TurnstileResponse = {
 };
 
 type EnquiryType = "contact" | "consultation";
+type TurnstileAction = EnquiryType | "newsletter";
 
 type EnquiryNotification = {
   id: string;
@@ -52,6 +53,14 @@ type EnquiryNotification = {
   topic: string | null;
   preferredContact: string | null;
   message: string | null;
+  cfCountry: string | null;
+};
+
+type NewsletterNotification = {
+  id: string;
+  fullName: string | null;
+  email: string;
+  source: string;
   cfCountry: string | null;
 };
 
@@ -115,6 +124,10 @@ const worker = {
       return withSecurityHeaders(
         await handleEnquiry(request, env, ctx, url.pathname)
       );
+    }
+
+    if (url.pathname === "/api/newsletter") {
+      return withSecurityHeaders(await handleNewsletter(request, env, ctx));
     }
 
     return withSecurityHeaders(await env.ASSETS.fetch(request));
@@ -233,6 +246,91 @@ async function handleEnquiry(
   return Response.redirect(thankYouUrl.toString(), 303);
 }
 
+async function handleNewsletter(
+  request: Request,
+  env: Env,
+  ctx: ExecutionContext
+): Promise<Response> {
+  if (request.method !== "POST") {
+    return jsonResponse({ error: "Method not allowed" }, 405);
+  }
+
+  let formData: FormData;
+  try {
+    formData = await request.formData();
+  } catch {
+    return jsonResponse({ error: "Invalid form submission" }, 400);
+  }
+
+  if (getString(formData, "company")) {
+    return jsonResponse({ error: "Invalid form submission" }, 400);
+  }
+
+  const turnstileToken = getString(formData, "cf-turnstile-response");
+  const turnstileOk = await verifyTurnstile(
+    turnstileToken,
+    request,
+    env,
+    "newsletter"
+  );
+
+  if (!turnstileOk) {
+    return jsonResponse({ error: "Human verification failed" }, 403);
+  }
+
+  const fullName = normalize(getString(formData, "full_name"), 90) || null;
+  const email = normalize(getString(formData, "email"), 120).toLowerCase();
+  const source = normalize(getString(formData, "source"), 80) || "website";
+  const consent = formData.get("consent") === "on" ? 1 : 0;
+
+  if (!email || !isLikelyEmail(email) || consent !== 1) {
+    return jsonResponse({ error: "Required fields are missing" }, 400);
+  }
+
+  const id = crypto.randomUUID();
+  const userAgent = normalize(request.headers.get("user-agent"), 220) || null;
+  const cfCountry = normalize(request.headers.get("cf-ipcountry"), 8) || null;
+
+  await env.al_kaafi_public.prepare(
+    `INSERT INTO newsletter_subscribers (
+      id,
+      email,
+      full_name,
+      source,
+      consent,
+      status,
+      user_agent,
+      cf_country
+    ) VALUES (?, ?, ?, ?, ?, 'subscribed', ?, ?)
+    ON CONFLICT(email) DO UPDATE SET
+      full_name = COALESCE(excluded.full_name, newsletter_subscribers.full_name),
+      source = excluded.source,
+      consent = excluded.consent,
+      status = 'subscribed',
+      user_agent = excluded.user_agent,
+      cf_country = excluded.cf_country,
+      updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')`
+  )
+    .bind(id, email, fullName, source, consent, userAgent, cfCountry)
+    .run();
+
+  ctx.waitUntil(
+    sendNewsletterNotification(env, {
+      id,
+      fullName,
+      email,
+      source,
+      cfCountry,
+    })
+  );
+
+  const siteUrl = env.SITE_URL || "https://alkaafipharmacy.com";
+  const thankYouUrl = new URL("/thank-you/", siteUrl);
+  thankYouUrl.searchParams.set("type", "newsletter");
+
+  return Response.redirect(thankYouUrl.toString(), 303);
+}
+
 async function sendEnquiryNotification(
   env: Env,
   enquiry: EnquiryNotification
@@ -262,6 +360,32 @@ async function sendEnquiryNotification(
   } catch (error) {
     console.error(
       `Failed to send ${enquiry.enquiryType} notification ${enquiry.id}:`,
+      error
+    );
+  }
+}
+
+async function sendNewsletterNotification(
+  env: Env,
+  subscription: NewsletterNotification
+): Promise<void> {
+  if (!env.EMAIL) {
+    console.warn("Email binding is not configured; newsletter notification skipped.");
+    return;
+  }
+
+  try {
+    await env.EMAIL.send({
+      to: "feedback@alkaafipharmacy.com",
+      from: emailFrom,
+      replyTo: subscription.email,
+      subject: `[Al Kaafi Website] Newsletter signup from ${subscription.email}`,
+      text: buildNewsletterText(subscription),
+      html: buildNewsletterHtml(subscription),
+    });
+  } catch (error) {
+    console.error(
+      `Failed to send newsletter notification ${subscription.id}:`,
       error
     );
   }
@@ -328,11 +452,56 @@ function buildNotificationHtml(
   `;
 }
 
+function buildNewsletterText(subscription: NewsletterNotification): string {
+  return [
+    "Newsletter signup submitted on alkaafipharmacy.com",
+    "",
+    `Reference: ${subscription.id}`,
+    `Name: ${subscription.fullName || "Not provided"}`,
+    `Email: ${subscription.email}`,
+    `Source: ${subscription.source}`,
+    `Country: ${subscription.cfCountry || "Unknown"}`,
+    "",
+    "The subscriber gave consent to receive health tips and store updates.",
+  ].join("\n");
+}
+
+function buildNewsletterHtml(subscription: NewsletterNotification): string {
+  const rows = [
+    ["Reference", subscription.id],
+    ["Name", subscription.fullName || "Not provided"],
+    ["Email", subscription.email],
+    ["Source", subscription.source],
+    ["Country", subscription.cfCountry || "Unknown"],
+  ];
+
+  return `
+    <div style="font-family: Arial, sans-serif; color: #1a1a1a; line-height: 1.6;">
+      <h1 style="color: #003B2E; font-size: 20px;">Newsletter signup submitted on alkaafipharmacy.com</h1>
+      <table cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%; max-width: 680px;">
+        ${rows
+          .map(
+            ([name, value]) => `
+              <tr>
+                <th align="left" style="border: 1px solid #e5ded0; background: #f3ebdc; width: 180px;">${escapeHtml(name)}</th>
+                <td style="border: 1px solid #e5ded0;">${escapeHtml(value)}</td>
+              </tr>
+            `
+          )
+          .join("")}
+      </table>
+      <p style="background: #fff8e8; border: 1px solid #d4af37; padding: 12px; border-radius: 8px;">
+        The subscriber gave consent to receive health tips and store updates.
+      </p>
+    </div>
+  `;
+}
+
 async function verifyTurnstile(
   token: string,
   request: Request,
   env: Env,
-  expectedAction: EnquiryType
+  expectedAction: TurnstileAction
 ): Promise<boolean> {
   const expectedHostnames = parseExpectedHostnames(env.TURNSTILE_HOSTNAMES);
 

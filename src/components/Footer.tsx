@@ -10,6 +10,7 @@ import {
   Phone,
 } from "lucide-react";
 import Brand from "./Brand";
+import NewsletterForm from "./NewsletterForm";
 import { business } from "@/data/business";
 
 const footerLinks = {
@@ -71,16 +72,12 @@ const Footer = () => {
               Subscribe for store updates
             </p>
             <p className="mt-3 text-sm leading-7 text-[#faf5ef]/64">
-              Mailing-list signup will be enabled after the owner approves the
-              email provider, consent wording, and retention process.
+              Get short health tips, medicine-safety reminders, and important
+              notices from the Nakasero store.
             </p>
-            <Link
-              href="/contact/"
-              className="mt-4 inline-flex min-h-12 items-center justify-center rounded-xl bg-[#d5a94e] px-5 text-sm font-black text-[#012e20] transition hover:bg-[#f0c76b]"
-            >
-              Contact the pharmacy
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+            <div className="mt-4">
+              <NewsletterForm source="footer" compact inverse />
+            </div>
           </div>
         </div>
 

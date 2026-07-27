@@ -14,8 +14,12 @@ export default function AboutPage() {
     <StaticPageShell
       eyebrow="About"
       title={`${business.displayName} is built for practical everyday care.`}
-      description="The pharmacy is positioned around the real needs of Kampala customers: clinic follow-ups, household medicine boxes, workday errands, and respectful guidance at the counter."
+      description={`${business.legalName} is positioned around the real needs of Kampala customers: clinic follow-ups, household medicine boxes, workday errands, and respectful guidance at the counter.`}
       sections={[
+        {
+          title: "Legal name",
+          body: `${business.legalName} trades publicly as ${business.displayName}. The brand promise is care, trust, and wellness for customers who need reliable walk-in pharmacy support in central Kampala.`,
+        },
         {
           title: "What we stand for",
           body: "The brand promise is care, trust, and wellness. That means simple language, careful dispensing, and a calm store experience.",

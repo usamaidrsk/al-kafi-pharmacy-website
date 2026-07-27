@@ -13,7 +13,7 @@ export default function PrescriptionPortalPage() {
     <StaticPageShell
       eyebrow="Prescription portal"
       title="Prescription handling belongs in a separate secure pathway."
-      description="This public website does not collect prescription images, medical reports, diagnoses, IDs, or payment-card details. A secure prescription pathway should be launched only after the pharmacy approves the process, data controls, and responsible pharmacist workflow."
+      description="This public website does not collect prescription images, medical reports, diagnoses, IDs, or payment-card details. Prescription files require a separate secure pathway with stronger access controls, retention rules, and pharmacist review."
       sections={[
         {
           title: "Current phase",
@@ -25,7 +25,7 @@ export default function PrescriptionPortalPage() {
         },
         {
           title: "Future portal requirements",
-          body: "A future prescription portal should be a separate application and data boundary with stronger authentication, access controls, audit logs, retention rules, and pharmacist review.",
+          body: "A prescription portal should be a separate application and data boundary with stronger authentication, access controls, audit logs, retention rules, and pharmacist review.",
         },
         {
           title: "Safe next step",

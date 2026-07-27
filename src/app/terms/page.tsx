@@ -14,7 +14,7 @@ export default function TermsPage() {
     <StaticPageShell
       eyebrow="Terms of Use"
       title="Website terms for safe, practical pharmacy information."
-      description="These terms apply to use of this public website. They are launch-ready drafting notes and should be reviewed by Ugandan counsel before publication."
+      description="These terms apply to use of the Al Kaafi Pharmacy public website, including store information, health notes, public forms, and newsletter signup."
       sections={[
         {
           title: "Website purpose",
@@ -46,7 +46,7 @@ export default function TermsPage() {
         },
         {
           title: "Contact",
-          body: `For website questions, contact ${business.displayName} at ${business.email} or ${business.phoneDisplay}. Last updated: 27 July 2026.`,
+          body: `For website questions, contact ${business.legalName} at ${business.email} or ${business.phoneDisplay}. Last updated: 27 July 2026.`,
         },
       ]}
       ctaLabel="Privacy notice"
