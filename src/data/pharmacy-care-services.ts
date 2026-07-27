@@ -11,7 +11,7 @@ import {
   Dumbbell,
   HeartHandshake,
   MessagesSquare,
-  PillBottle,
+  Pill,
   Presentation,
   ShieldAlert,
   ShieldCheck,
@@ -183,7 +183,7 @@ export const productEverydayHealthServices: PharmacyServiceCard[] = [
     title: "Vitamins & Nutritional Supplements",
     description:
       "Vitamins, minerals and nutritional supplements from traceable suppliers, with responsible guidance on suitability and use.",
-    icon: PillBottle,
+    icon: Pill,
     cta: "Explore supplements",
     href: "/shop/",
   },
