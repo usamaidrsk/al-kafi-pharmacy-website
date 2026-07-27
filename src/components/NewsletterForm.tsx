@@ -96,6 +96,7 @@ const NewsletterForm = ({
             label="Name"
             name="full_name"
             autoComplete="name"
+            placeholder="Your full name"
             disabled={isDisabled}
             inverse={inverse}
             inputClass={inputClass}

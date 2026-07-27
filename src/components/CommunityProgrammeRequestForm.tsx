@@ -117,10 +117,34 @@ const CommunityProgrammeRequestForm = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="grid gap-5 md:grid-cols-2">
-          <Field label="Name" name="full_name" required disabled={isDisabled} />
-          <Field label="Organisation" name="organisation" disabled={isDisabled} />
-          <Field label="Email" name="email" type="email" required disabled={isDisabled} />
-          <Field label="Telephone" name="telephone" type="tel" disabled={isDisabled} />
+          <Field
+            label="Name"
+            name="full_name"
+            required
+            disabled={isDisabled}
+            placeholder="Your full name"
+          />
+          <Field
+            label="Organisation"
+            name="organisation"
+            disabled={isDisabled}
+            placeholder="Organisation or group name"
+          />
+          <Field
+            label="Email"
+            name="email"
+            type="email"
+            required
+            disabled={isDisabled}
+            placeholder="you@example.com"
+          />
+          <Field
+            label="Telephone"
+            name="telephone"
+            type="tel"
+            disabled={isDisabled}
+            placeholder="+256 790 836 377"
+          />
 
           <label className="grid gap-2 text-sm font-bold text-[#012e20]">
             Programme selected
@@ -143,23 +167,27 @@ const CommunityProgrammeRequestForm = () => {
             label="Intended audience"
             name="intended_audience"
             disabled={isDisabled}
+            placeholder="e.g. parents, staff, pupils, caregivers"
           />
           <Field
             label="Estimated number of participants"
             name="estimated_participants"
             type="number"
             disabled={isDisabled}
+            placeholder="e.g. 30"
           />
           <Field
             label="Preferred location"
             name="preferred_location"
             disabled={isDisabled}
+            placeholder="e.g. Nakasero, school hall, workplace"
           />
           <Field
             label="Preferred date"
             name="preferred_date"
             type="date"
             disabled={isDisabled}
+            placeholder="Select a preferred date"
           />
 
           <label className="grid gap-2 text-sm font-bold text-[#012e20]">
@@ -186,7 +214,7 @@ const CommunityProgrammeRequestForm = () => {
             rows={5}
             maxLength={1200}
             disabled={isDisabled}
-            placeholder="Keep this general. Do not include participant diagnoses, prescriptions, clinical histories or children's personal health information."
+            placeholder="Share programme goals, preferred timing, or logistics. Do not include participant diagnoses, prescriptions, clinical histories or children's personal health information."
             className="rounded-xl border border-[#012e20]/15 bg-white px-4 py-3 text-sm leading-7 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-[#d5a94e] focus:ring-4 focus:ring-[#d5a94e]/20"
           />
         </label>
@@ -233,6 +261,7 @@ type FieldProps = {
   type?: string;
   required?: boolean;
   disabled?: boolean;
+  placeholder?: string;
 };
 
 const Field = ({
@@ -241,6 +270,7 @@ const Field = ({
   type = "text",
   required = false,
   disabled = false,
+  placeholder,
 }: FieldProps) => (
   <label className="grid gap-2 text-sm font-bold text-[#012e20]">
     {label}
@@ -249,6 +279,7 @@ const Field = ({
       type={type}
       required={required}
       disabled={disabled}
+      placeholder={placeholder}
       className="min-h-12 rounded-xl border border-[#012e20]/15 bg-white px-4 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-[#d5a94e] focus:ring-4 focus:ring-[#d5a94e]/20"
     />
   </label>

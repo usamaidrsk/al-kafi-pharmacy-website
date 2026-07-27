@@ -149,9 +149,28 @@ const EnquiryFormPage = ({ type }: EnquiryFormPageProps) => {
           className="rounded-[2rem] border border-[#012e20]/10 bg-white p-6 shadow-[0_24px_70px_rgba(1,46,32,0.08)] md:p-8"
         >
           <div className="grid gap-5 md:grid-cols-2">
-            <Field label="Full name" name="full_name" required disabled={isDisabled} />
-            <Field label="Email address" name="email" type="email" required disabled={isDisabled} />
-            <Field label="Phone number" name="phone" type="tel" disabled={isDisabled} />
+            <Field
+              label="Full name"
+              name="full_name"
+              required
+              disabled={isDisabled}
+              placeholder="Your full name"
+            />
+            <Field
+              label="Email address"
+              name="email"
+              type="email"
+              required
+              disabled={isDisabled}
+              placeholder="you@example.com"
+            />
+            <Field
+              label="Phone number"
+              name="phone"
+              type="tel"
+              disabled={isDisabled}
+              placeholder="+256 790 836 377"
+            />
             <label className="grid gap-2 text-sm font-bold text-[#012e20]">
               Topic
               <select
@@ -178,7 +197,7 @@ const EnquiryFormPage = ({ type }: EnquiryFormPageProps) => {
               disabled={isDisabled}
               className="min-h-12 rounded-xl border border-[#012e20]/15 bg-white px-4 text-sm text-slate-800 outline-none transition focus:border-[#d5a94e] focus:ring-4 focus:ring-[#d5a94e]/20"
             >
-              <option value="">Select one</option>
+              <option value="">Choose how we should respond</option>
               <option value="phone">Phone</option>
               <option value="email">Email</option>
               <option value="whatsapp">WhatsApp</option>
@@ -192,7 +211,7 @@ const EnquiryFormPage = ({ type }: EnquiryFormPageProps) => {
               rows={5}
               maxLength={1200}
               disabled={isDisabled}
-              placeholder="Keep this general. Do not include prescriptions, diagnoses, IDs, lab reports, or payment-card details."
+              placeholder="Briefly describe the enquiry. Do not include prescriptions, diagnoses, IDs, lab reports, or payment-card details."
               className="rounded-xl border border-[#012e20]/15 bg-white px-4 py-3 text-sm leading-7 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-[#d5a94e] focus:ring-4 focus:ring-[#d5a94e]/20"
             />
           </label>
@@ -258,6 +277,7 @@ type FieldProps = {
   type?: string;
   required?: boolean;
   disabled?: boolean;
+  placeholder?: string;
 };
 
 const Field = ({
@@ -266,6 +286,7 @@ const Field = ({
   type = "text",
   required = false,
   disabled = false,
+  placeholder,
 }: FieldProps) => (
   <label className="grid gap-2 text-sm font-bold text-[#012e20]">
     {label}
@@ -274,6 +295,7 @@ const Field = ({
       type={type}
       required={required}
       disabled={disabled}
+      placeholder={placeholder}
       className="min-h-12 rounded-xl border border-[#012e20]/15 bg-white px-4 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-[#d5a94e] focus:ring-4 focus:ring-[#d5a94e]/20"
     />
   </label>
