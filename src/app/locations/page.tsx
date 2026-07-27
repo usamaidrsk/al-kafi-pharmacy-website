@@ -5,7 +5,7 @@ import { business } from "@/data/business";
 export const metadata: Metadata = {
   title: "Locations",
   description:
-    "Find Al Kaafi Pharmacy contact details, opening hours, and Nakasero location information.",
+    "Find Al Kaafi Pharmacy contact details, opening-status updates, and Nakasero location information.",
   alternates: { canonical: "/locations/" },
 };
 
@@ -14,7 +14,7 @@ export default function LocationsPage() {
     <StaticPageShell
       eyebrow="Locations"
       title="Visit the Nakasero pharmacy."
-      description="Al Kaafi Pharmacy keeps contact details and opening hours visible so customers can plan a quick store visit from home, work, school, or clinic."
+      description="Al Kaafi Pharmacy keeps contact and location details visible while confirmed opening information is prepared."
       sections={[
         {
           title: "Address",
@@ -28,7 +28,7 @@ export default function LocationsPage() {
         },
         {
           title: "Opening hours",
-          body: "Hours may change during public holidays or special events. Call before visiting if timing is critical.",
+          body: "Formal opening hours have not been published yet. Call before visiting if timing is critical.",
           points: [business.weekdayHours, business.sundayHours, business.holidayHours],
         },
         {

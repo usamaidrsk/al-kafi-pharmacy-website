@@ -3,6 +3,7 @@
 import Script from "next/script";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { FormEvent, useState } from "react";
 import { business } from "@/data/business";
 
 type NewsletterFormProps = {
@@ -19,13 +20,58 @@ const NewsletterForm = ({
   inverse = false,
 }: NewsletterFormProps) => {
   const formDisabled = !turnstileSiteKey;
+  const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
+  const [error, setError] = useState("");
+  const isDisabled = formDisabled || status === "submitting";
   const inputClass = inverse
     ? "border-white/15 bg-white/10 text-white placeholder:text-white/45 focus:border-[#d5a94e] focus:ring-[#d5a94e]/25"
     : "border-[#012e20]/15 bg-white text-slate-800 placeholder:text-slate-400 focus:border-[#d5a94e] focus:ring-[#d5a94e]/20";
   const helperClass = inverse ? "text-[#faf5ef]/68" : "text-slate-600";
+  const errorClass = inverse
+    ? "border-red-300/45 bg-red-950/30 text-red-50"
+    : "border-red-200 bg-red-50 text-red-700";
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setStatus("submitting");
+    setError("");
+
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        body: new FormData(event.currentTarget),
+        headers: {
+          Accept: "application/json",
+          "X-Requested-With": "fetch",
+        },
+      });
+      const data = (await response.json().catch(() => ({}))) as {
+        error?: string;
+        redirect?: string;
+      };
+
+      if (response.ok && data.redirect) {
+        window.location.assign(data.redirect);
+        return;
+      }
+
+      setStatus("error");
+      setError(data.error || "Newsletter signup could not be completed. Please try again.");
+      window.turnstile?.reset();
+    } catch {
+      setStatus("error");
+      setError("Newsletter signup could not be completed. Please check your connection and try again.");
+      window.turnstile?.reset();
+    }
+  };
 
   return (
-    <form action="/api/newsletter" method="post" className="grid gap-4">
+    <form
+      action="/api/newsletter"
+      method="post"
+      onSubmit={handleSubmit}
+      className="grid gap-4"
+    >
       {turnstileSiteKey && (
         <Script
           src="https://challenges.cloudflare.com/turnstile/v0/api.js"
@@ -54,7 +100,7 @@ const NewsletterForm = ({
           <input
             name="full_name"
             type="text"
-            disabled={formDisabled}
+            disabled={isDisabled}
             autoComplete="name"
             className={`min-h-12 rounded-xl border px-4 text-sm outline-none transition focus:ring-4 ${inputClass}`}
           />
@@ -71,7 +117,7 @@ const NewsletterForm = ({
           name="email"
           type="email"
           required
-          disabled={formDisabled}
+          disabled={isDisabled}
           autoComplete="email"
           placeholder="you@example.com"
           className={`min-h-12 rounded-xl border px-4 text-sm outline-none transition focus:ring-4 ${inputClass}`}
@@ -87,7 +133,7 @@ const NewsletterForm = ({
           type="checkbox"
           name="consent"
           required
-          disabled={formDisabled}
+          disabled={isDisabled}
           className="mt-1 h-4 w-4 shrink-0"
         />
         <span>
@@ -122,12 +168,20 @@ const NewsletterForm = ({
 
       <button
         type="submit"
-        disabled={formDisabled}
+        disabled={isDisabled}
         className="inline-flex min-h-12 w-fit items-center justify-center rounded-2xl bg-[#d5a94e] px-5 text-sm font-black text-[#012e20] transition hover:bg-[#f0c76b] disabled:cursor-not-allowed disabled:bg-slate-400 disabled:text-white"
       >
-        Subscribe
+        {status === "submitting" ? "Subscribing..." : "Subscribe"}
         <ArrowRight className="ml-2 h-4 w-4" />
       </button>
+
+      <div className="min-h-6" aria-live="polite">
+        {status === "error" && (
+          <p className={`rounded-2xl border p-4 text-sm font-semibold leading-6 ${errorClass}`}>
+            {error}
+          </p>
+        )}
+      </div>
 
       <p className={`text-xs leading-5 ${helperClass}`}>
         We send practical pharmacy notes, store notices, and medicine-safety

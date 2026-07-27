@@ -120,6 +120,14 @@ const worker = {
       return Response.redirect(url.toString(), 301);
     }
 
+    if (
+      url.pathname === "/prescription-portal" ||
+      url.pathname === "/prescription-portal/"
+    ) {
+      url.pathname = "/prescription-support/";
+      return Response.redirect(url.toString(), 301);
+    }
+
     if (url.pathname === "/api/contact" || url.pathname === "/api/consultation") {
       return withSecurityHeaders(
         await handleEnquiry(request, env, ctx, url.pathname)
@@ -243,7 +251,7 @@ async function handleEnquiry(
   const thankYouUrl = new URL("/thank-you/", siteUrl);
   thankYouUrl.searchParams.set("type", enquiryType);
 
-  return Response.redirect(thankYouUrl.toString(), 303);
+  return redirectOrJson(request, thankYouUrl);
 }
 
 async function handleNewsletter(
@@ -328,7 +336,7 @@ async function handleNewsletter(
   const thankYouUrl = new URL("/thank-you/", siteUrl);
   thankYouUrl.searchParams.set("type", "newsletter");
 
-  return Response.redirect(thankYouUrl.toString(), 303);
+  return redirectOrJson(request, thankYouUrl);
 }
 
 async function sendEnquiryNotification(
@@ -598,6 +606,21 @@ function jsonResponse(body: Record<string, unknown>, status: number): Response {
       "content-type": "application/json; charset=utf-8",
     },
   });
+}
+
+function redirectOrJson(request: Request, url: URL): Response {
+  if (prefersJson(request)) {
+    return jsonResponse({ ok: true, redirect: url.toString() }, 200);
+  }
+
+  return Response.redirect(url.toString(), 303);
+}
+
+function prefersJson(request: Request): boolean {
+  return (
+    request.headers.get("x-requested-with") === "fetch" ||
+    request.headers.get("accept")?.includes("application/json") === true
+  );
 }
 
 function withSecurityHeaders(response: Response): Response {

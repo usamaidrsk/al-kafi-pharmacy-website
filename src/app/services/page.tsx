@@ -4,7 +4,7 @@ import StaticPageShell from "@/components/StaticPageShell";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Al Kaafi Pharmacy services include prescription dispensing, over-the-counter guidance, product checks, and family wellness support.",
+    "Al Kaafi Pharmacy services include prescription support, over-the-counter guidance, product checks, and family wellness support.",
   alternates: { canonical: "/services/" },
 };
 
@@ -13,11 +13,11 @@ export default function ServicesPage() {
     <StaticPageShell
       eyebrow="Services"
       title="In-store pharmacy support without unnecessary complexity."
-      description="This phase keeps services practical and store-led. Customers can walk in, ask questions, and leave with clear guidance for medicine use and everyday health products."
+      description="This phase keeps services practical and store-led. Customers can ask low-risk questions, check categories, and prepare for safe medicine-use conversations."
       sections={[
         {
-          title: "Prescription dispensing",
-          body: "Bring a prescription to the counter and ask the pharmacy team to explain dosage, timing, storage, and safe use.",
+          title: "Prescription support",
+          body: "Use this website for general prescription-support questions only. Do not send prescription files, patient records, or IDs through public forms.",
         },
         {
           title: "Over-the-counter guidance",
@@ -25,7 +25,7 @@ export default function ServicesPage() {
         },
         {
           title: "Product availability checks",
-          body: "Customers can call or submit a low-risk enquiry before visiting to ask whether common medicines or essentials are available.",
+          body: "Customers can call or submit a low-risk enquiry to ask about common medicine categories or everyday essentials.",
         },
         {
           title: "Family wellness support",

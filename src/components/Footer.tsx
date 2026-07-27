@@ -24,10 +24,10 @@ const footerLinks = {
     { label: "Wellness essentials", href: "/shop/" },
   ],
   services: [
-    { label: "Dispensing counter", href: "/services/" },
+    { label: "General prescription support", href: "/services/" },
     { label: "Pharmacist consultation", href: "/consultation/" },
     { label: "Product catalogue", href: "/shop/" },
-    { label: "Prescription portal", href: "/prescription-portal/" },
+    { label: "Prescription Support page", href: "/prescription-support/" },
   ],
   company: [
     { label: "About Al Kaafi", href: "/about/" },
@@ -35,6 +35,7 @@ const footerLinks = {
     { label: "Locations", href: "/locations/" },
     { label: "Careers", href: "/careers/" },
     { label: "Contact us", href: "/contact/" },
+    { label: "Complaints", href: "/complaints/" },
   ],
   legal: [
     { label: "Privacy", href: "/privacy/" },
@@ -62,8 +63,12 @@ const Footer = () => {
           <div>
             <Brand inverse showMotto />
             <p className="mt-5 max-w-xl text-sm leading-7 text-[#faf5ef]/72">
-              A central Kampala pharmacy for prescriptions, everyday
-              medicines, family essentials, and practical pharmacist guidance.
+              A central Kampala pharmacy for prescription support,
+              everyday medicines, family essentials, and practical pharmacist
+              guidance.
+            </p>
+            <p className="mt-3 text-xs font-semibold uppercase tracking-[0.16em] text-[#d5a94e]">
+              Registered company: {business.legalName}
             </p>
           </div>
 

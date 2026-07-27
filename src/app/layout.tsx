@@ -9,7 +9,7 @@ import { business } from "@/data/business";
 const siteUrl = business.siteUrl;
 const siteName = business.displayName;
 const siteDescription =
-  "Al Kaafi Pharmacy supports central Kampala with prescription dispensing, everyday medicines, family essentials, and practical pharmacist guidance.";
+  "Al Kaafi Pharmacy supports central Kampala with prescription support, everyday medicine categories, family essentials, and practical pharmacist guidance.";
 const defaultOgImage = "/images/og-default-1200x630.jpg";
 const pharmacyPhone = business.phoneE164;
 const pharmacyEmail = business.email;
@@ -24,7 +24,7 @@ const pharmacyAddress = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Al Kaafi Pharmacy | Prescriptions, Wellness and Family Care in Kampala",
+    default: "Al Kaafi Pharmacy | Prescription Support, Wellness and Family Care in Kampala",
     template: "%s | Al Kaafi Pharmacy",
   },
   description: siteDescription,
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     "Uganda pharmacy",
     "Kampala pharmacy",
     "community pharmacy",
-    "prescription dispensing",
+    "prescription support",
     "over-the-counter health products",
     "family wellness",
   ],
@@ -51,20 +51,20 @@ export const metadata: Metadata = {
     locale: "en_UG",
     url: "/",
     siteName,
-    title: "Al Kaafi Pharmacy | Prescriptions, Wellness and Family Care in Kampala",
+    title: "Al Kaafi Pharmacy | Prescription Support, Wellness and Family Care in Kampala",
     description: siteDescription,
     images: [
       {
         url: defaultOgImage,
         width: 1200,
         height: 630,
-        alt: "Al Kaafi Pharmacy storefront and brand mark",
+        alt: "Al Kaafi Pharmacy storefront",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Al Kaafi Pharmacy | Prescriptions, Wellness and Family Care in Kampala",
+    title: "Al Kaafi Pharmacy | Prescription Support, Wellness and Family Care in Kampala",
     description: siteDescription,
     images: [defaultOgImage],
   },
@@ -106,25 +106,11 @@ const organizationJsonLd = {
   address: pharmacyAddress,
   areaServed: ["Nakasero", "Kampala"],
   availableService: [
-    "Prescription dispensing",
+    "Prescription support",
     "Over-the-counter medicines",
     "Family wellness essentials",
     "First aid and hygiene products",
     "In-store pharmacist guidance",
-  ],
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-      opens: "08:00",
-      closes: "20:30",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: "Sunday",
-      opens: "09:00",
-      closes: "17:00",
-    },
   ],
 };
 

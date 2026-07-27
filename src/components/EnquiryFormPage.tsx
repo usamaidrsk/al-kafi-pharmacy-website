@@ -1,6 +1,17 @@
+"use client";
+
 import Script from "next/script";
 import Link from "next/link";
+import { FormEvent, useState } from "react";
 import { business } from "@/data/business";
+
+declare global {
+  interface Window {
+    turnstile?: {
+      reset: () => void;
+    };
+  }
+}
 
 type EnquiryFormPageProps = {
   type: "contact" | "consultation";
@@ -10,8 +21,9 @@ const topicOptions = {
   contact: [
     "Store enquiry",
     "Product availability",
-    "Opening hours",
+    "Location or opening-status information",
     "Feedback",
+    "Formal complaint",
   ],
   consultation: [
     "Medicine-use guidance",
@@ -46,6 +58,43 @@ const EnquiryFormPage = ({ type }: EnquiryFormPageProps) => {
   const content = copy[type];
   const topics = topicOptions[type];
   const formDisabled = !turnstileSiteKey;
+  const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
+  const [error, setError] = useState("");
+  const isDisabled = formDisabled || status === "submitting";
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setStatus("submitting");
+    setError("");
+
+    try {
+      const response = await fetch(content.action, {
+        method: "POST",
+        body: new FormData(event.currentTarget),
+        headers: {
+          Accept: "application/json",
+          "X-Requested-With": "fetch",
+        },
+      });
+      const data = (await response.json().catch(() => ({}))) as {
+        error?: string;
+        redirect?: string;
+      };
+
+      if (response.ok && data.redirect) {
+        window.location.assign(data.redirect);
+        return;
+      }
+
+      setStatus("error");
+      setError(data.error || "The form could not be submitted. Please check the details and try again.");
+      window.turnstile?.reset();
+    } catch {
+      setStatus("error");
+      setError("The form could not be submitted. Please check your connection and try again.");
+      window.turnstile?.reset();
+    }
+  };
 
   return (
     <main className="bg-[#faf5ef] px-5 py-14 md:px-6 md:py-20">
@@ -83,23 +132,32 @@ const EnquiryFormPage = ({ type }: EnquiryFormPageProps) => {
             </a>
             .
           </div>
+          {type === "contact" && (
+            <Link
+              href="/complaints/"
+              className="mt-7 inline-flex min-h-12 items-center rounded-full border border-[#012e20]/15 bg-[#faf5ef] px-5 text-sm font-black text-[#012e20] transition hover:border-[#d5a94e] hover:bg-[#f1e5c9]"
+            >
+              Formal complaints procedure
+            </Link>
+          )}
         </section>
 
         <form
           action={content.action}
           method="post"
+          onSubmit={handleSubmit}
           className="rounded-[2rem] border border-[#012e20]/10 bg-white p-6 shadow-[0_24px_70px_rgba(1,46,32,0.08)] md:p-8"
         >
           <div className="grid gap-5 md:grid-cols-2">
-            <Field label="Full name" name="full_name" required disabled={formDisabled} />
-            <Field label="Email address" name="email" type="email" required disabled={formDisabled} />
-            <Field label="Phone number" name="phone" type="tel" disabled={formDisabled} />
+            <Field label="Full name" name="full_name" required disabled={isDisabled} />
+            <Field label="Email address" name="email" type="email" required disabled={isDisabled} />
+            <Field label="Phone number" name="phone" type="tel" disabled={isDisabled} />
             <label className="grid gap-2 text-sm font-bold text-[#012e20]">
               Topic
               <select
                 name="topic"
                 required
-                disabled={formDisabled}
+                disabled={isDisabled}
                 className="min-h-12 rounded-xl border border-[#012e20]/15 bg-white px-4 text-sm text-slate-800 outline-none transition focus:border-[#d5a94e] focus:ring-4 focus:ring-[#d5a94e]/20"
               >
                 <option value="">Select a topic</option>
@@ -117,7 +175,7 @@ const EnquiryFormPage = ({ type }: EnquiryFormPageProps) => {
             <select
               name="preferred_contact"
               required
-              disabled={formDisabled}
+              disabled={isDisabled}
               className="min-h-12 rounded-xl border border-[#012e20]/15 bg-white px-4 text-sm text-slate-800 outline-none transition focus:border-[#d5a94e] focus:ring-4 focus:ring-[#d5a94e]/20"
             >
               <option value="">Select one</option>
@@ -133,7 +191,7 @@ const EnquiryFormPage = ({ type }: EnquiryFormPageProps) => {
               name="message"
               rows={5}
               maxLength={1200}
-              disabled={formDisabled}
+              disabled={isDisabled}
               placeholder="Keep this general. Do not include prescriptions, diagnoses, IDs, lab reports, or payment-card details."
               className="rounded-xl border border-[#012e20]/15 bg-white px-4 py-3 text-sm leading-7 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-[#d5a94e] focus:ring-4 focus:ring-[#d5a94e]/20"
             />
@@ -144,7 +202,7 @@ const EnquiryFormPage = ({ type }: EnquiryFormPageProps) => {
               type="checkbox"
               name="consent"
               required
-              disabled={formDisabled}
+              disabled={isDisabled}
               className="mt-1 h-4 w-4 shrink-0"
             />
             <span>
@@ -176,11 +234,18 @@ const EnquiryFormPage = ({ type }: EnquiryFormPageProps) => {
 
           <button
             type="submit"
-            disabled={formDisabled}
+            disabled={isDisabled}
             className="mt-6 inline-flex min-h-12 items-center rounded-full bg-[#012e20] px-7 text-sm font-black text-white transition hover:bg-[#10492e] disabled:cursor-not-allowed disabled:bg-slate-400"
           >
-            {content.submit}
+            {status === "submitting" ? "Submitting..." : content.submit}
           </button>
+          <div className="mt-4 min-h-6" aria-live="polite">
+            {status === "error" && (
+              <p className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold leading-6 text-red-700">
+                {error}
+              </p>
+            )}
+          </div>
         </form>
       </div>
     </main>

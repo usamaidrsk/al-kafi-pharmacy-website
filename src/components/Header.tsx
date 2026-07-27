@@ -29,7 +29,12 @@ const navGroups = [
       {
         label: "Locations",
         href: "/locations/",
-        description: "Phone, email, location, and opening hours.",
+        description: "Phone, email, location, and confirmed access details.",
+      },
+      {
+        label: "Complaints procedure",
+        href: "/complaints/",
+        description: "How to raise a service, privacy, or website concern.",
       },
       {
         label: "Careers",
@@ -50,11 +55,11 @@ const navGroups = [
       {
         label: "In-store services",
         href: "/services/",
-        description: "Dispensing, product checks, and counter guidance.",
+        description: "Product checks, medicine-use questions, and counter guidance.",
       },
       {
-        label: "Prescription portal",
-        href: "/prescription-portal/",
+        label: "Prescription Support",
+        href: "/prescription-support/",
         description: "How prescription files are handled outside public forms.",
       },
     ],
@@ -82,7 +87,7 @@ const navGroups = [
       {
         label: "Uganda market focus",
         href: "/about/",
-        description: "Built around Kampala walk-in pharmacy needs.",
+        description: "Built around Kampala pharmacy and household-care needs.",
       },
       {
         label: "Accessibility",
@@ -98,7 +103,7 @@ const navSectionIds = Array.from(
 );
 
 const searchItems = [
-  { label: "Prescription dispensing", href: "/services/", type: "Service" },
+  { label: "Prescription support", href: "/services/", type: "Service" },
   { label: "Pain and fever relief", href: "/shop/", type: "Category" },
   { label: "Cough, cold and flu", href: "/shop/", type: "Category" },
   { label: "Vitamins and supplements", href: "/shop/", type: "Category" },
@@ -109,9 +114,10 @@ const searchItems = [
   { label: "Pharmacist consultation", href: "/consultation/", type: "Service" },
   { label: "Ask about dosage and safe use", href: "/consultation/", type: "Service" },
   { label: "Uganda market focus", href: "/about/", type: "Section" },
-  { label: "Store hours and contact", href: "/contact/", type: "Visit" },
+  { label: "Store status and contact", href: "/contact/", type: "Visit" },
   { label: "Nakasero location", href: "/locations/", type: "Visit" },
   { label: "Health tips and pharmacy news", href: "/health-hub/", type: "News" },
+  { label: "Complaints procedure", href: "/complaints/", type: "Support" },
 ];
 
 export const Header = () => {
@@ -424,7 +430,7 @@ export const Header = () => {
                 ) : (
                   <p className="px-4 py-8 text-sm text-slate-500">
                     No match yet. Try prescriptions, fever, baby care, hygiene,
-                    consultation, news, or hours.
+                    consultation, news, or opening status.
                   </p>
                 )}
               </div>

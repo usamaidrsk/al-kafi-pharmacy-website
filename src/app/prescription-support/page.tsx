@@ -4,11 +4,11 @@ import StaticPageShell from "@/components/StaticPageShell";
 export const metadata: Metadata = {
   title: "Prescription Support",
   description:
-    "Al Kaafi Pharmacy prescription support boundary page. Public forms do not collect prescription files or patient records.",
+    "Al Kaafi Pharmacy prescription support page. Public forms do not collect prescription files or patient records.",
   alternates: { canonical: "/prescription-support/" },
 };
 
-export default function PrescriptionPortalPage() {
+export default function PrescriptionSupportPage() {
   return (
     <StaticPageShell
       eyebrow="Prescription Support"
@@ -21,11 +21,11 @@ export default function PrescriptionPortalPage() {
         },
         {
           title: "What is not collected here",
-          body: "Do not upload or submit prescription files, lab reports, diagnoses, patient IDs, insurance details, or payment-card information through public forms.",
+          body: "Do not submit prescription files, lab reports, diagnoses, patient IDs, insurance details, or payment-card information through public forms.",
         },
         {
-          title: "Future portal requirements",
-          body: "A prescription portal should be a separate application and data boundary with stronger authentication, access controls, audit logs, retention rules, and pharmacist review.",
+          title: "Secure workflow requirement",
+          body: "Any future prescription-support system should be separate from the public website and include stronger authentication, access controls, audit logs, retention rules, and pharmacist review.",
         },
         {
           title: "Safe next step",

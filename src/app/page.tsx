@@ -26,9 +26,9 @@ import { business } from "@/data/business";
 
 const heroSlides = [
   {
-    eyebrow: "Walk-in pharmacy in central Kampala",
+    eyebrow: "Pharmacy in central Kampala",
     message:
-      "Prescriptions, common medicines, family essentials, and clear guidance before you leave.",
+      "Prescription support, common medicine categories, family essentials, and clear guidance.",
     cta: "See categories",
     href: "#categories",
     image: "/images/alkaafi-storefront.jpeg",
@@ -37,16 +37,16 @@ const heroSlides = [
   {
     eyebrow: "Speak to the pharmacy team",
     message:
-      "Bring your prescription and ask about dosage, timing, and safe use at the counter.",
+      "Ask about dosage, timing, safe use, and what to prepare before visiting.",
     cta: "Consult pharmacist",
     href: "/consultation/",
     image: "/images/alkaafi-interior.jpeg",
-    imageAlt: "Architectural design concept for Al Kaafi Pharmacy dispensing counter and consultation area",
+    imageAlt: "Architectural design concept for Al Kaafi Pharmacy consultation counter and medicine shelves",
   },
   {
     eyebrow: "Care, trust, wellness",
     message:
-      "Daily pharmacy care for Nakasero, central Kampala, and nearby households.",
+      "A pharmacy shaped for Nakasero, central Kampala, and nearby households.",
     cta: "View store details",
     href: "#visit",
     image: "/images/alkaafi-storefront.jpeg",
@@ -57,8 +57,8 @@ const heroSlides = [
 const quickLinks = [
   {
     label: "Prescription support",
-    detail: "Dispensing checked and explained",
-    href: "/consultation/",
+    detail: "Guidance without public file uploads",
+    href: "/prescription-support/",
     icon: Stethoscope,
   },
   {
@@ -68,8 +68,8 @@ const quickLinks = [
     icon: PillBottle,
   },
   {
-    label: "Open daily in Nakasero",
-    detail: "Walk-in care for busy Kampala days",
+    label: "Nakasero location",
+    detail: "Opening hours to be confirmed",
     href: "#visit",
     icon: Clock3,
   },
@@ -78,7 +78,7 @@ const quickLinks = [
 const medicationCategories = [
   {
     title: "Prescription medicines",
-    description: "Dispensed at the counter with use instructions explained clearly.",
+    description: "Prescription support information without collecting files online.",
     icon: PillBottle,
   },
   {
@@ -120,8 +120,8 @@ const medicationCategories = [
 
 const services = [
   {
-    title: "Dispensing counter",
-    body: "Bring a prescription and get the medicine instructions explained clearly.",
+    title: "Prescription support",
+    body: "Ask what to prepare before a store visit and keep prescription files out of public forms.",
   },
   {
     title: "Over-the-counter guidance",
@@ -133,39 +133,39 @@ const services = [
   },
   {
     title: "Health product checks",
-    body: "Call ahead or visit to ask whether key medicines and essentials are available.",
+    body: "Use phone, email, or the enquiry form to ask about common medicines and essentials.",
   },
 ];
 
 const consultationSteps = [
-  "Bring your prescription or describe the health concern.",
+  "Describe the medicine-use question in general terms.",
   "Ask about dosage, timing, side effects, and safe use.",
-  "Leave with clear instructions you can follow at home.",
+  "Get practical guidance on what to confirm before visiting.",
 ];
 
 const trustPoints = [
   {
     title: "Serving Kampala households",
-    body: "Useful for clinic follow-ups, work commutes, school runs, and evening pickups.",
+    body: "Designed around clinic follow-ups, work commutes, school runs, and household planning.",
   },
   {
-    title: "Walk-in care in Nakasero",
-    body: "Customers can ask direct questions and get practical guidance at the counter.",
+    title: "Nakasero location planning",
+    body: "The site keeps location and contact details clear while opening information is confirmed.",
   },
   {
     title: "Advice from a neighborhood pharmacy",
-    body: "The shelves focus on prescriptions, OTC care, wellness, hygiene, and first aid.",
+    body: "The planned shelves focus on prescription support, OTC care, wellness, hygiene, and first aid.",
   },
   {
-    title: "Open for busy city schedules",
-    body: "Phone, email, location, and hours stay visible for quick visit planning.",
+    title: "Prepared for busy city schedules",
+    body: "Phone, email, location, and status details stay visible for quick planning.",
   },
 ];
 
 const newsItems = [
   {
     label: "Health Tip",
-    title: "What to ask before leaving the dispensing counter",
+    title: "What to ask before using a medicine",
     summary:
       "Confirm dosage, timing, food instructions, side effects, and medicines to avoid mixing.",
   },
@@ -177,7 +177,7 @@ const newsItems = [
   },
   {
     label: "Community Note",
-    title: "Why walk-in pharmacist guidance still matters",
+    title: "Why pharmacist guidance still matters",
     summary:
       "A short conversation can reduce medicine confusion and support safer use at home.",
   },
@@ -203,7 +203,7 @@ const visitDetails = [
   },
   {
     label: "Opening hours",
-    value: "Mon-Sat: 8:00 AM - 8:30 PM. Sun: 9:00 AM - 5:00 PM.",
+    value: business.shortHours,
     icon: Clock3,
   },
 ];
@@ -483,9 +483,9 @@ export default function HomePage() {
               Ask before you leave the pharmacy.
             </h2>
             <p className="mt-5 text-base leading-8 text-slate-700 md:text-lg">
-              Some medicines need a quick explanation. Bring your prescription
-              or question, and the team will help with dosage, timing, side
-              effects, and safe use.
+              Some medicines need a quick explanation. Use this channel for
+              general guidance about dosage, timing, side effects, and safe use.
+              Do not upload prescription files through public forms.
             </p>
             <div className="mt-7 space-y-3">
               {consultationSteps.map((item) => (
@@ -540,9 +540,9 @@ export default function HomePage() {
               </h2>
             </div>
             <p className="text-base leading-8 text-slate-700 md:text-lg">
-              Al Kaafi is positioned for people stopping after clinic visits,
-              during work commutes, after school runs, or on quick evening
-              errands.
+              Al Kaafi is positioned for people planning around clinic visits,
+              work commutes, school runs, and household medicine needs in
+              central Kampala.
             </p>
           </motion.div>
 
@@ -671,11 +671,11 @@ export default function HomePage() {
           <motion.div variants={revealUp}>
             <span className="section-kicker">Visit Al Kaafi</span>
             <h2 className="mt-5 text-3xl font-black leading-tight text-slate-950 md:text-5xl">
-              Plan a quick visit to the pharmacy.
+              Confirm details before visiting.
             </h2>
             <p className="mt-5 text-base leading-8 text-slate-700">
-              Find the phone number, email, Nakasero location, and opening
-              hours before you leave home or work.
+              Find the phone number, email, Nakasero location, and current
+              opening-status information before making plans.
             </p>
           </motion.div>
 

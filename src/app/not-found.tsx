@@ -10,7 +10,7 @@ export default function NotFound() {
         </h1>
         <p className="mt-5 text-base leading-8 text-slate-600">
           Return to the homepage for medicine categories, pharmacist support,
-          contact details, and opening hours.
+          contact details, and opening-status information.
         </p>
         <Link
           href="/"
