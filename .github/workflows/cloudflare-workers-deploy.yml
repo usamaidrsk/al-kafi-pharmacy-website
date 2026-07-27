@@ -24,34 +24,42 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: node -v && npm -v
-      - name: Validate Cloudflare CI secrets
+      - name: Normalize Cloudflare CI secrets
         run: |
-          node -e '
+          node <<'NODE'
+            const fs = require("node:fs");
             const required = ["CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN"];
+            const normalized = {};
             let failed = false;
 
             for (const key of required) {
               const value = process.env[key] || "";
+              const compact = value.replace(/\s+/g, "");
 
-              if (!value) {
+              if (!compact) {
                 console.error(`::error::${key} is missing from GitHub Actions secrets.`);
                 failed = true;
                 continue;
               }
 
-              if (value !== value.trim() || /[\r\n]/.test(value)) {
-                console.error(`::error::${key} contains whitespace or a newline. Recreate the GitHub secret as a single-line value.`);
-                failed = true;
+              normalized[key] = compact;
+
+              if (value !== compact) {
+                console.warn(`::warning::${key} contained whitespace/newlines and was normalized for this CI run. Recreate the GitHub secret as a clean single-line value when possible.`);
               }
             }
 
-            if ((process.env.CLOUDFLARE_API_TOKEN || "").startsWith("Bearer ")) {
+            if ((normalized.CLOUDFLARE_API_TOKEN || "").startsWith("Bearer")) {
               console.error("::error::CLOUDFLARE_API_TOKEN must be the raw token only, without the Bearer prefix.");
               failed = true;
             }
 
             if (failed) process.exit(1);
-          '
+
+            for (const [key, value] of Object.entries(normalized)) {
+              fs.appendFileSync(process.env.GITHUB_ENV, `${key}=${value}\n`);
+            }
+          NODE
       - run: npm ci
       - run: npm run build
       - run: npm run deploy:worker

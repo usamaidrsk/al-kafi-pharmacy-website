@@ -101,6 +101,9 @@ lines, or a `Bearer ` prefix. If CI reports `Headers.set` with an invalid
 header value, recreate `CLOUDFLARE_API_TOKEN` first, then `CLOUDFLARE_ACCOUNT_ID`
 if the error remains.
 
+The GitHub workflow also normalizes accidental whitespace before deploying, but
+the secrets should still be stored cleanly in GitHub.
+
 The API token should be scoped only to deploy the Worker, manage Workers routes/custom domains, read the account, and access the D1 database required by this project.
 
 ## Deploy
