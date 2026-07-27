@@ -8,8 +8,11 @@
 - Public database: Cloudflare D1 database named `al-kaafi-public`
 - Bot protection: Cloudflare Turnstile
 - Production domain: `https://alkaafipharmacy.com`
+- Required local/CI runtime: Node.js 22 or newer
 
 ## Owner account setup
+
+Install dependencies with Node.js 22 or newer before running Wrangler commands.
 
 Run these from an authenticated Cloudflare account owned by Al Kaafi Pharmacy:
 
