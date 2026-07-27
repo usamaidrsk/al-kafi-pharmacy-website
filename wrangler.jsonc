@@ -1,0 +1,40 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "al-kaafi-pharmacy",
+	"main": "src/worker.ts",
+	"compatibility_date": "2026-07-27",
+	"workers_dev": false,
+	"observability": {
+		"enabled": true
+	},
+	"vars": {
+		"ENVIRONMENT": "production",
+		"SITE_URL": "https://alkaafipharmacy.com",
+		"TURNSTILE_HOSTNAMES": "alkaafipharmacy.com,www.alkaafipharmacy.com"
+	},
+	"routes": [
+		{
+			"pattern": "alkaafipharmacy.com",
+			"custom_domain": true
+		},
+		{
+			"pattern": "www.alkaafipharmacy.com",
+			"custom_domain": true
+		}
+	],
+	"assets": {
+		"directory": "./out",
+		"binding": "ASSETS",
+		"not_found_handling": "404-page",
+		"run_worker_first": true
+	},
+	"d1_databases": [
+		{
+			"binding": "al_kaafi_public",
+			"database_name": "al-kaafi-public",
+			"database_id": "2547c412-0c67-485c-bd9a-57b3e9fd094e",
+			"migrations_dir": "migrations",
+			"remote": true
+		}
+	]
+}

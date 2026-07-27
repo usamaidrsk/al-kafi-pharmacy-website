@@ -37,7 +37,7 @@ const OurTeam = () => {
             Helpful service at the counter.
           </h2>
           <p className="mt-4 text-base leading-8 text-slate-700">
-            Alkaafi keeps the service promise simple: listen first, explain
+            Al Kaafi keeps the service promise simple: listen first, explain
             clearly, and help customers leave with confidence.
           </p>
         </motion.div>

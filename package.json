@@ -1,12 +1,20 @@
 {
-  "name": "al-kafi-pharmacy-website",
+  "name": "al-kaafi-pharmacy-website",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "WRANGLER_WRITE_LOGS=false wrangler dev",
+    "preview": "npm run build && WRANGLER_WRITE_LOGS=false wrangler dev",
+    "lint": "next lint",
+    "deploy": "npm run build && npm run deploy:worker",
+    "deploy:worker": "WRANGLER_WRITE_LOGS=false wrangler deploy",
+    "cf:login": "WRANGLER_WRITE_LOGS=false wrangler login",
+    "cf:types": "WRANGLER_WRITE_LOGS=false wrangler types",
+    "cf:secret:turnstile": "WRANGLER_WRITE_LOGS=false wrangler secret put TURNSTILE_SECRET_KEY",
+    "db:local": "WRANGLER_WRITE_LOGS=false wrangler d1 migrations apply al-kaafi-public --local",
+    "db:remote": "WRANGLER_WRITE_LOGS=false wrangler d1 migrations apply al-kaafi-public --remote"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.2",
@@ -15,7 +23,6 @@
     "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "firebase": "^11.0.2",
     "framer-motion": "^11.13.5",
     "lucide-react": "^0.468.0",
     "next": "15.0.4",
@@ -41,6 +48,7 @@
     "eslint-config-next": "15.0.4",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "4.114.0"
   }
 }

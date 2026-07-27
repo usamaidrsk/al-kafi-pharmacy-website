@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { business } from "@/data/business";
 
 type BrandProps = {
   compact?: boolean;
@@ -16,7 +17,7 @@ const Brand = ({
     <Link
       href="/"
       className="group inline-flex items-center gap-3"
-      aria-label="Alkaafi Pharmacy home"
+      aria-label={`${business.displayName} home`}
     >
       <span
         className={`relative flex shrink-0 items-center justify-center overflow-hidden rounded-full shadow-[0_14px_32px_rgba(1,46,32,0.18)] transition-transform duration-300 group-hover:-translate-y-0.5 ${
@@ -41,7 +42,7 @@ const Brand = ({
               inverse ? "text-[#faf5ef]" : "text-[#012e20]"
             }`}
           >
-            AL KAFI
+            {business.wordmark}
           </span>
           <span className="mt-1 flex items-center gap-2">
             <span
@@ -62,7 +63,7 @@ const Brand = ({
                 inverse ? "text-[#faf5ef]/72" : "text-[#012e20]/70"
               }`}
             >
-              Care • Trust • Wellness
+              {business.tagline}
             </span>
           )}
         </span>

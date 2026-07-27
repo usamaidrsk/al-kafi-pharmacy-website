@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   Baby,
@@ -21,6 +21,7 @@ import {
   Sparkles,
   Stethoscope,
 } from "lucide-react";
+import { business } from "@/data/business";
 
 const heroSlides = [
   {
@@ -30,16 +31,16 @@ const heroSlides = [
     cta: "See categories",
     href: "#categories",
     image: "/images/alkaafi-storefront.jpeg",
-    imageAlt: "Alkaafi Pharmacy storefront with green and gold signage",
+    imageAlt: "Al Kaafi Pharmacy storefront with green and gold signage",
   },
   {
     eyebrow: "Speak to the pharmacy team",
     message:
       "Bring your prescription and ask about dosage, timing, and safe use at the counter.",
     cta: "Consult pharmacist",
-    href: "#consultation",
+    href: "/consultation/",
     image: "/images/alkaafi-interior.jpeg",
-    imageAlt: "Alkaafi Pharmacy dispensing counter and consultation area",
+    imageAlt: "Al Kaafi Pharmacy dispensing counter and consultation area",
   },
   {
     eyebrow: "Care, trust, wellness",
@@ -48,7 +49,7 @@ const heroSlides = [
     cta: "View store details",
     href: "#visit",
     image: "/images/alkaafi-storefront.jpeg",
-    imageAlt: "Alkaafi Pharmacy storefront entrance and medicine shelves",
+    imageAlt: "Al Kaafi Pharmacy storefront entrance and medicine shelves",
   },
 ];
 
@@ -56,7 +57,7 @@ const quickLinks = [
   {
     label: "Prescription support",
     detail: "Dispensing checked and explained",
-    href: "#consultation",
+    href: "/consultation/",
     icon: Stethoscope,
   },
   {
@@ -189,14 +190,14 @@ const visitDetails = [
   },
   {
     label: "Phone",
-    value: "+256 790 836 377",
-    href: "tel:+256790836377",
+    value: business.phoneDisplay,
+    href: business.phoneHref,
     icon: Phone,
   },
   {
     label: "Email",
-    value: "feedback@alkaafipharmacy.com",
-    href: "mailto:feedback@alkaafipharmacy.com",
+    value: business.email,
+    href: `mailto:${business.email}`,
     icon: Mail,
   },
   {
@@ -229,8 +230,6 @@ const staggerChildren = {
 
 export default function HomePage() {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [newsletterEmail, setNewsletterEmail] = useState("");
-  const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
   const slide = heroSlides[activeSlide];
 
   useEffect(() => {
@@ -244,13 +243,6 @@ export default function HomePage() {
 
     return () => window.clearInterval(timer);
   }, []);
-
-  const handleNewsletterSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!newsletterEmail.trim()) return;
-    setNewsletterSubmitted(true);
-    setNewsletterEmail("");
-  };
 
   return (
     <div className="overflow-hidden">
@@ -297,7 +289,7 @@ export default function HomePage() {
             variants={revealUp}
             className="brand-display mt-5 max-w-4xl text-4xl leading-tight text-[#faf5ef] drop-shadow-[0_4px_18px_rgba(1,46,32,0.5)] [letter-spacing:0.08em] sm:text-5xl md:text-7xl md:[letter-spacing:0.14em]"
           >
-            Alkaafi Pharmacy
+            {business.displayName}
           </motion.h1>
 
           <AnimatePresence mode="wait">
@@ -510,7 +502,7 @@ export default function HomePage() {
           <motion.div variants={revealUp} className="relative overflow-hidden rounded-3xl">
             <Image
               src="/images/alkaafi-interior.jpeg"
-              alt="Alkaafi Pharmacy interior with consultation room, prescriptions shelf, and wellness section"
+              alt="Al Kaafi Pharmacy interior with consultation room, prescriptions shelf, and wellness section"
               width={1200}
               height={900}
               className="aspect-[4/3] w-full object-cover"
@@ -538,7 +530,7 @@ export default function HomePage() {
               </h2>
             </div>
             <p className="text-base leading-8 text-slate-700 md:text-lg">
-              Alkaafi is positioned for people stopping after clinic visits,
+              Al Kaafi is positioned for people stopping after clinic visits,
               during work commutes, after school runs, or on quick evening
               errands.
             </p>
@@ -640,45 +632,25 @@ export default function HomePage() {
             </p>
           </motion.div>
 
-          <motion.form
+          <motion.div
             variants={revealUp}
-            onSubmit={handleNewsletterSubmit}
             className="rounded-3xl border border-white/10 bg-white/[0.07] p-4"
           >
-            <label
-              htmlFor="home-newsletter-email"
-              className="text-xs font-black uppercase tracking-[0.18em] text-[#d5a94e]"
-            >
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#d5a94e]">
               Subscribe for more
-            </label>
-            <div className="mt-3 flex flex-col gap-3 sm:flex-row">
-              <input
-                id="home-newsletter-email"
-                type="email"
-                value={newsletterEmail}
-                onChange={(event) => setNewsletterEmail(event.target.value)}
-                placeholder="Email address"
-                aria-describedby="home-newsletter-status"
-                className="min-h-12 flex-1 rounded-2xl border border-white/10 bg-white px-4 text-sm font-semibold text-[#012e20] outline-none transition placeholder:text-slate-400 focus:border-[#d5a94e] focus:ring-4 focus:ring-[#d5a94e]/20"
-              />
-              <button
-                type="submit"
-                className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#d5a94e] px-5 text-sm font-black text-[#012e20] transition hover:bg-[#f0c76b]"
-              >
-                Subscribe
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </button>
-            </div>
-            <p
-              id="home-newsletter-status"
-              aria-live="polite"
-              className="mt-3 text-xs leading-5 text-[#faf5ef]/62"
-            >
-              {newsletterSubmitted
-                ? "Thank you. Newsletter capture will be connected before launch."
-                : "Health tips, medicine safety reminders, and pharmacy notices for Kampala customers."}
             </p>
-          </motion.form>
+            <p className="mt-3 text-sm leading-7 text-[#faf5ef]/72">
+              Newsletter signup will be connected after the pharmacy approves
+              the mailing-list provider, consent wording, and retention process.
+            </p>
+            <Link
+              href="/contact/"
+              className="mt-5 inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#d5a94e] px-5 text-sm font-black text-[#012e20] transition hover:bg-[#f0c76b]"
+            >
+              Send a store enquiry
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </motion.div>
         </motion.div>
       </section>
 
@@ -691,7 +663,7 @@ export default function HomePage() {
           className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.8fr_1.2fr]"
         >
           <motion.div variants={revealUp}>
-            <span className="section-kicker">Visit Alkaafi</span>
+            <span className="section-kicker">Visit Al Kaafi</span>
             <h2 className="mt-5 text-3xl font-black leading-tight text-slate-950 md:text-5xl">
               Plan a quick visit to the pharmacy.
             </h2>

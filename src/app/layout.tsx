@@ -4,28 +4,28 @@ import "./globals.css";
 import { MainComponent } from "@/components/MainComponent";
 import { Header } from "@/components/Header";
 import Footer from "@/components/Footer";
+import { business } from "@/data/business";
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://al-kafi-pharmacy-website.web.app";
-const siteName = "Alkaafi Pharmacy";
+const siteUrl = business.siteUrl;
+const siteName = business.displayName;
 const siteDescription =
-  "Alkaafi Pharmacy supports central Kampala with prescription dispensing, everyday medicines, family essentials, and practical pharmacist guidance.";
-const defaultOgImage = "/alkaafi-logo.jpeg";
-const pharmacyPhone = "+256790836377";
-const pharmacyEmail = "feedback@alkaafipharmacy.com";
+  "Al Kaafi Pharmacy supports central Kampala with prescription dispensing, everyday medicines, family essentials, and practical pharmacist guidance.";
+const defaultOgImage = "/images/og-default-1200x630.jpg";
+const pharmacyPhone = business.phoneE164;
+const pharmacyEmail = business.email;
 const pharmacyAddress = {
   "@type": "PostalAddress",
   streetAddress: "Creates",
-  addressLocality: "Nakasero, Kampala",
-  addressRegion: "Central Division",
-  addressCountry: "UG",
+  addressLocality: business.addressLocality,
+  addressRegion: business.addressRegion,
+  addressCountry: business.countryCode,
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Alkaafi Pharmacy | Prescriptions, Wellness and Family Care in Kampala",
-    template: "%s | Alkaafi Pharmacy",
+    default: "Al Kaafi Pharmacy | Prescriptions, Wellness and Family Care in Kampala",
+    template: "%s | Al Kaafi Pharmacy",
   },
   description: siteDescription,
   applicationName: siteName,
@@ -34,7 +34,8 @@ export const metadata: Metadata = {
   publisher: siteName,
   category: "Pharmacy",
   keywords: [
-    "Alkaafi Pharmacy",
+    "Al Kaafi Pharmacy",
+    "AL KAAFI PHARMACY",
     "Uganda pharmacy",
     "Kampala pharmacy",
     "community pharmacy",
@@ -50,20 +51,20 @@ export const metadata: Metadata = {
     locale: "en_UG",
     url: "/",
     siteName,
-    title: "Alkaafi Pharmacy | Prescriptions, Wellness and Family Care in Kampala",
+    title: "Al Kaafi Pharmacy | Prescriptions, Wellness and Family Care in Kampala",
     description: siteDescription,
     images: [
       {
         url: defaultOgImage,
-        width: 640,
-        height: 640,
-        alt: "Alkaafi Pharmacy logo",
+        width: 1200,
+        height: 630,
+        alt: "Al Kaafi Pharmacy storefront and brand mark",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Alkaafi Pharmacy | Prescriptions, Wellness and Family Care in Kampala",
+    title: "Al Kaafi Pharmacy | Prescriptions, Wellness and Family Care in Kampala",
     description: siteDescription,
     images: [defaultOgImage],
   },
@@ -79,7 +80,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Alkaafi Pharmacy",
+    title: "Al Kaafi Pharmacy",
   },
   other: {
     "msapplication-TileColor": "#012e20",

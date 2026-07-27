@@ -6,7 +6,7 @@ export default function NotFound() {
       <div className="mx-auto max-w-3xl rounded-[2.5rem] border border-emerald-900/10 bg-white p-8 text-center shadow-[0_24px_60px_rgba(18,49,38,0.08)] md:p-12">
         <span className="section-kicker">Page not available</span>
         <h1 className="mt-5 text-4xl font-black text-slate-950 md:text-5xl">
-          We could not find that Alkaafi Pharmacy page.
+          We could not find that Al Kaafi Pharmacy page.
         </h1>
         <p className="mt-5 text-base leading-8 text-slate-600">
           Return to the homepage for medicine categories, pharmacist support,

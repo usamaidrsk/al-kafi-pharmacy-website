@@ -1,17 +1,31 @@
 import type { MetadataRoute } from "next";
+import { business } from "@/data/business";
 
 export const dynamic = "force-static";
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://al-kafi-pharmacy-website.web.app";
+const siteUrl = business.siteUrl.replace(/\/$/, "");
+
+const routes = [
+  "/",
+  "/about/",
+  "/services/",
+  "/shop/",
+  "/consultation/",
+  "/health-hub/",
+  "/locations/",
+  "/contact/",
+  "/careers/",
+  "/prescription-portal/",
+  "/privacy/",
+  "/terms/",
+  "/accessibility/",
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: `${siteUrl.replace(/\/$/, "")}/`,
-      lastModified: "2026-07-13",
+  return routes.map((route) => ({
+      url: `${siteUrl}${route}`,
+      lastModified: "2026-07-27",
       changeFrequency: "monthly",
-      priority: 1,
-    },
-  ];
+      priority: route === "/" ? 1 : 0.7,
+  }));
 }

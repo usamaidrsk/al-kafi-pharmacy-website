@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -8,31 +8,37 @@ import {
   Mail,
   MapPin,
   Phone,
-  Send,
 } from "lucide-react";
 import Brand from "./Brand";
+import { business } from "@/data/business";
 
 const footerLinks = {
   categories: [
-    { label: "Prescription medicines", href: "/#categories" },
-    { label: "Pain and fever relief", href: "/#categories" },
-    { label: "Cold and flu care", href: "/#categories" },
-    { label: "Baby and hygiene", href: "/#categories" },
-    { label: "First aid essentials", href: "/#categories" },
-    { label: "Personal hygiene", href: "/#categories" },
-    { label: "Wellness essentials", href: "/#categories" },
+    { label: "Prescription medicines", href: "/shop/" },
+    { label: "Pain and fever relief", href: "/shop/" },
+    { label: "Cold and flu care", href: "/shop/" },
+    { label: "Baby and hygiene", href: "/shop/" },
+    { label: "First aid essentials", href: "/shop/" },
+    { label: "Personal hygiene", href: "/shop/" },
+    { label: "Wellness essentials", href: "/shop/" },
   ],
   services: [
-    { label: "Dispensing counter", href: "/#services" },
-    { label: "Pharmacist consultation", href: "/#consultation" },
-    { label: "Family wellness shelf", href: "/#categories" },
-    { label: "Store hours", href: "/#visit" },
+    { label: "Dispensing counter", href: "/services/" },
+    { label: "Pharmacist consultation", href: "/consultation/" },
+    { label: "Product catalogue", href: "/shop/" },
+    { label: "Prescription portal", href: "/prescription-portal/" },
   ],
   company: [
-    { label: "About Alkaafi", href: "/#trust" },
-    { label: "Health tips", href: "/#news" },
-    { label: "Visit the store", href: "/#visit" },
-    { label: "Contact us", href: "/#visit" },
+    { label: "About Al Kaafi", href: "/about/" },
+    { label: "Health hub", href: "/health-hub/" },
+    { label: "Locations", href: "/locations/" },
+    { label: "Careers", href: "/careers/" },
+    { label: "Contact us", href: "/contact/" },
+  ],
+  legal: [
+    { label: "Privacy", href: "/privacy/" },
+    { label: "Terms", href: "/terms/" },
+    { label: "Accessibility", href: "/accessibility/" },
   ],
   socials: [
     { label: "Facebook", href: "https://facebook.com/" },
@@ -42,22 +48,12 @@ const footerLinks = {
 };
 
 const openingHours = [
-  "Monday - Saturday: 8:00 AM - 8:30 PM",
-  "Sunday: 9:00 AM - 5:00 PM",
-  "Public holidays: 10:00 AM - 3:00 PM",
+  business.weekdayHours,
+  business.sundayHours,
+  business.holidayHours,
 ];
 
 const Footer = () => {
-  const [email, setEmail] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleNewsletterSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!email.trim()) return;
-    setIsSubmitted(true);
-    setEmail("");
-  };
-
   return (
     <footer className="relative overflow-hidden bg-[#012e20] px-5 pb-8 pt-14 text-white md:px-6">
       <div className="mx-auto max-w-7xl">
@@ -70,65 +66,44 @@ const Footer = () => {
             </p>
           </div>
 
-          <form
-            onSubmit={handleNewsletterSubmit}
-            className="rounded-2xl border border-white/10 bg-white/[0.06] p-4"
-          >
-            <label
-              htmlFor="newsletter-email"
-              className="text-xs font-black uppercase tracking-[0.18em] text-[#d5a94e]"
-            >
+          <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#d5a94e]">
               Subscribe for store updates
-            </label>
-            <div className="mt-3 flex flex-col gap-3 sm:flex-row">
-              <input
-                id="newsletter-email"
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                placeholder="Email address"
-                aria-describedby="footer-newsletter-status"
-                className="min-h-12 flex-1 rounded-xl border border-white/10 bg-white px-4 text-sm font-semibold text-[#012e20] outline-none transition placeholder:text-slate-400 focus:border-[#d5a94e] focus:ring-4 focus:ring-[#d5a94e]/20"
-              />
-              <button
-                type="submit"
-                className="inline-flex min-h-12 items-center justify-center rounded-xl bg-[#d5a94e] px-5 text-sm font-black text-[#012e20] transition hover:bg-[#f0c76b]"
-              >
-                Subscribe
-                <Send className="ml-2 h-4 w-4" />
-              </button>
-            </div>
-            <p
-              id="footer-newsletter-status"
-              aria-live="polite"
-              className="mt-3 text-xs leading-5 text-[#faf5ef]/58"
-            >
-              {isSubmitted
-                ? "Thank you. Newsletter capture will be connected before launch."
-                : "Health tips, product reminders, and store notices for Kampala customers."}
             </p>
-          </form>
+            <p className="mt-3 text-sm leading-7 text-[#faf5ef]/64">
+              Mailing-list signup will be enabled after the owner approves the
+              email provider, consent wording, and retention process.
+            </p>
+            <Link
+              href="/contact/"
+              className="mt-4 inline-flex min-h-12 items-center justify-center rounded-xl bg-[#d5a94e] px-5 text-sm font-black text-[#012e20] transition hover:bg-[#f0c76b]"
+            >
+              Contact the pharmacy
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </div>
         </div>
 
-        <div className="grid gap-9 py-10 sm:grid-cols-2 lg:grid-cols-[0.95fr_0.95fr_0.85fr_0.75fr_1.1fr]">
+        <div className="grid gap-9 py-10 sm:grid-cols-2 lg:grid-cols-[0.95fr_0.95fr_0.85fr_0.75fr_0.85fr_1.1fr]">
           <FooterColumn title="Medication Categories" links={footerLinks.categories} />
           <FooterColumn title="Pharmacy Services" links={footerLinks.services} />
-          <FooterColumn title="Alkaafi" links={footerLinks.company} />
+          <FooterColumn title="Al Kaafi" links={footerLinks.company} />
           <FooterColumn title="Socials" links={footerLinks.socials} />
+          <FooterColumn title="Legal" links={footerLinks.legal} />
 
           <div>
             <h3 className="text-xs font-black uppercase tracking-[0.22em] text-white/45">
               Contact and Hours
             </h3>
             <div className="mt-5 space-y-4 text-sm text-[#faf5ef]/72">
-              <ContactLine href="tel:+256790836377" icon={Phone}>
-                +256 790 836 377
+              <ContactLine href={business.phoneHref} icon={Phone}>
+                {business.phoneDisplay}
               </ContactLine>
-              <ContactLine href="mailto:feedback@alkaafipharmacy.com" icon={Mail}>
-                feedback@alkaafipharmacy.com
+              <ContactLine href={`mailto:${business.email}`} icon={Mail}>
+                {business.email}
               </ContactLine>
-              <ContactLine href="/#visit" icon={MapPin}>
-                Creates, Nakasero, Central Division, Kampala
+              <ContactLine href="/locations/" icon={MapPin}>
+                {business.address}
               </ContactLine>
             </div>
 
@@ -144,8 +119,8 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-[#faf5ef]/52 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Alkaafi Pharmacy.</p>
-          <p>Care, trust, wellness, and clear in-store pharmacy support.</p>
+          <p>© {new Date().getFullYear()} {business.displayName}.</p>
+          <p>This website is not an emergency service. For emergencies, contact local emergency care immediately.</p>
         </div>
       </div>
     </footer>

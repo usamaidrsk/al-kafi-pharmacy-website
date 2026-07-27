@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Brand from "./Brand";
+import { business } from "@/data/business";
 
 const navGroups = [
   {
@@ -21,14 +22,19 @@ const navGroups = [
     activeIds: ["visit"],
     items: [
       {
-        label: "About Alkaafi",
-        href: "/#trust",
+        label: "About Al Kaafi",
+        href: "/about/",
         description: "Local pharmacy care for central Kampala routines.",
       },
       {
-        label: "Visit the pharmacy",
-        href: "/#visit",
+        label: "Locations",
+        href: "/locations/",
         description: "Phone, email, location, and opening hours.",
+      },
+      {
+        label: "Careers",
+        href: "/careers/",
+        description: "Future pharmacy and customer-care opportunities.",
       },
     ],
   },
@@ -38,18 +44,23 @@ const navGroups = [
     items: [
       {
         label: "Medicine categories",
-        href: "/#categories",
+        href: "/shop/",
         description: "Prescriptions, OTC care, wellness, hygiene, and first aid.",
       },
       {
         label: "In-store services",
-        href: "/#services",
+        href: "/services/",
         description: "Dispensing, product checks, and counter guidance.",
       },
       {
         label: "Consult pharmacist",
-        href: "/#consultation",
+        href: "/consultation/",
         description: "Ask about dosage, timing, side effects, and safe use.",
+      },
+      {
+        label: "Prescription portal",
+        href: "/prescription-portal/",
+        description: "A separate secure pathway for prescriptions when approved.",
       },
     ],
   },
@@ -59,12 +70,12 @@ const navGroups = [
     items: [
       {
         label: "Health tips",
-        href: "/#news",
+        href: "/health-hub/",
         description: "Short notes on medicine safety and home care.",
       },
       {
         label: "Store updates",
-        href: "/#news",
+        href: "/health-hub/",
         description: "Useful notices from the Nakasero pharmacy.",
       },
     ],
@@ -75,12 +86,12 @@ const navGroups = [
     items: [
       {
         label: "Uganda market focus",
-        href: "/#trust",
+        href: "/about/",
         description: "Built around Kampala walk-in pharmacy needs.",
       },
       {
-        label: "Community care",
-        href: "/#trust",
+        label: "Accessibility",
+        href: "/accessibility/",
         description: "Practical support for families and daily city schedules.",
       },
     ],
@@ -92,20 +103,20 @@ const navSectionIds = Array.from(
 );
 
 const searchItems = [
-  { label: "Prescription dispensing", href: "/#consultation", type: "Service" },
-  { label: "Pain and fever relief", href: "/#categories", type: "Category" },
-  { label: "Cough, cold and flu", href: "/#categories", type: "Category" },
-  { label: "Vitamins and supplements", href: "/#categories", type: "Category" },
-  { label: "Baby care and hygiene", href: "/#categories", type: "Category" },
-  { label: "First aid essentials", href: "/#categories", type: "Category" },
-  { label: "Personal hygiene", href: "/#categories", type: "Category" },
-  { label: "Wellness essentials", href: "/#categories", type: "Category" },
-  { label: "Pharmacist consultation", href: "/#consultation", type: "Service" },
-  { label: "Ask about dosage and safe use", href: "/#consultation", type: "Service" },
-  { label: "Uganda market focus", href: "/#trust", type: "Section" },
-  { label: "Store hours and contact", href: "/#visit", type: "Visit" },
-  { label: "Nakasero location", href: "/#visit", type: "Visit" },
-  { label: "Health tips and pharmacy news", href: "/#news", type: "News" },
+  { label: "Prescription dispensing", href: "/services/", type: "Service" },
+  { label: "Pain and fever relief", href: "/shop/", type: "Category" },
+  { label: "Cough, cold and flu", href: "/shop/", type: "Category" },
+  { label: "Vitamins and supplements", href: "/shop/", type: "Category" },
+  { label: "Baby care and hygiene", href: "/shop/", type: "Category" },
+  { label: "First aid essentials", href: "/shop/", type: "Category" },
+  { label: "Personal hygiene", href: "/shop/", type: "Category" },
+  { label: "Wellness essentials", href: "/shop/", type: "Category" },
+  { label: "Pharmacist consultation", href: "/consultation/", type: "Service" },
+  { label: "Ask about dosage and safe use", href: "/consultation/", type: "Service" },
+  { label: "Uganda market focus", href: "/about/", type: "Section" },
+  { label: "Store hours and contact", href: "/contact/", type: "Visit" },
+  { label: "Nakasero location", href: "/locations/", type: "Visit" },
+  { label: "Health tips and pharmacy news", href: "/health-hub/", type: "News" },
 ];
 
 export const Header = () => {
@@ -205,24 +216,24 @@ export const Header = () => {
         <div className="mx-auto flex min-h-10 max-w-7xl flex-col gap-2 px-5 py-2 text-xs font-semibold md:flex-row md:items-center md:justify-between md:px-6">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
             <a
-              href="tel:+256790836377"
+              href={business.phoneHref}
               className="inline-flex items-center gap-2 transition hover:text-[#d5a94e]"
             >
               <Phone className="h-3.5 w-3.5 text-[#d5a94e]" />
-              +256 790 836 377
+              {business.phoneDisplay}
             </a>
             <a
-              href="mailto:feedback@alkaafipharmacy.com"
+              href={`mailto:${business.email}`}
               className="inline-flex items-center gap-2 transition hover:text-[#d5a94e]"
             >
               <Mail className="h-3.5 w-3.5 text-[#d5a94e]" />
-              feedback@alkaafipharmacy.com
+              {business.email}
             </a>
           </div>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[#faf5ef]/82">
             <span className="inline-flex items-center gap-2">
               <Clock3 className="h-3.5 w-3.5 text-[#d5a94e]" />
-              Mon-Sat: 8:00 AM - 8:30 PM
+              {business.shortHours}
             </span>
             <Link
               href="/#visit"
@@ -287,7 +298,7 @@ export const Header = () => {
             ))}
           </div>
           <Link
-            href="/#consultation"
+            href="/consultation/"
             className="hidden rounded-full bg-[#012e20] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#10492e] sm:inline-flex"
           >
             Consult pharmacist
@@ -343,7 +354,7 @@ export const Header = () => {
                 ))}
               </div>
               <Link
-                href="/#consultation"
+                href="/consultation/"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="rounded-xl bg-[#012e20] px-4 py-3 text-center text-sm font-bold text-white"
               >
@@ -379,7 +390,7 @@ export const Header = () => {
               className="relative mx-auto mt-16 max-w-2xl overflow-hidden rounded-3xl border border-[#012e20]/10 bg-white shadow-[0_36px_100px_rgba(1,46,32,0.24)]"
             >
               <h2 id="site-search-title" className="sr-only">
-                Search Alkaafi Pharmacy
+                Search {business.displayName}
               </h2>
               <div className="flex items-center gap-3 border-b border-[#012e20]/10 px-5 py-4">
                 <Search className="h-5 w-5 text-[#012e20]/55" />
