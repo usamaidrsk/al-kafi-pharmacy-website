@@ -96,6 +96,11 @@ CLOUDFLARE_ACCOUNT_ID
 CLOUDFLARE_API_TOKEN
 ```
 
+Both values must be single-line values. Do not include quotes, spaces, blank
+lines, or a `Bearer ` prefix. If CI reports `Headers.set` with an invalid
+header value, recreate `CLOUDFLARE_API_TOKEN` first, then `CLOUDFLARE_ACCOUNT_ID`
+if the error remains.
+
 The API token should be scoped only to deploy the Worker, manage Workers routes/custom domains, read the account, and access the D1 database required by this project.
 
 ## Deploy

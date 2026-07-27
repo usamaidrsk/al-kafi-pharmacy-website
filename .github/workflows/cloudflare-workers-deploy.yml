@@ -24,6 +24,34 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: node -v && npm -v
+      - name: Validate Cloudflare CI secrets
+        run: |
+          node -e '
+            const required = ["CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN"];
+            let failed = false;
+
+            for (const key of required) {
+              const value = process.env[key] || "";
+
+              if (!value) {
+                console.error(`::error::${key} is missing from GitHub Actions secrets.`);
+                failed = true;
+                continue;
+              }
+
+              if (value !== value.trim() || /[\r\n]/.test(value)) {
+                console.error(`::error::${key} contains whitespace or a newline. Recreate the GitHub secret as a single-line value.`);
+                failed = true;
+              }
+            }
+
+            if ((process.env.CLOUDFLARE_API_TOKEN || "").startsWith("Bearer ")) {
+              console.error("::error::CLOUDFLARE_API_TOKEN must be the raw token only, without the Bearer prefix.");
+              failed = true;
+            }
+
+            if (failed) process.exit(1);
+          '
       - run: npm ci
       - run: npm run build
       - run: npm run deploy:worker
