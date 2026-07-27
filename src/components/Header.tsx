@@ -53,9 +53,9 @@ const navGroups = [
         description: "Prescriptions, OTC care, wellness, hygiene, and first aid.",
       },
       {
-        label: "In-store services",
+        label: "Pharmacy care",
         href: "/services/",
-        description: "Product checks, medicine-use questions, and counter guidance.",
+        description: "Consultation, dispensing, reviews, adherence and safety support.",
       },
       {
         label: "Prescription Support",
@@ -103,7 +103,13 @@ const navSectionIds = Array.from(
 );
 
 const searchItems = [
-  { label: "Prescription support", href: "/services/", type: "Service" },
+  { label: "Pharmacy Care & Medicine Support", href: "/services/", type: "Service" },
+  { label: "Prescription dispensing", href: "/services/", type: "Service" },
+  { label: "Medication counselling and review", href: "/services/", type: "Service" },
+  { label: "Medication adherence support", href: "/services/", type: "Service" },
+  { label: "Medicine information service", href: "/services/", type: "Service" },
+  { label: "Medicine safety and side-effect support", href: "/services/", type: "Service" },
+  { label: "Community health education", href: "/services/", type: "Service" },
   { label: "Pain and fever relief", href: "/shop/", type: "Category" },
   { label: "Cough, cold and flu", href: "/shop/", type: "Category" },
   { label: "Vitamins and supplements", href: "/shop/", type: "Category" },

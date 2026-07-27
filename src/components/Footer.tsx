@@ -24,9 +24,10 @@ const footerLinks = {
     { label: "Wellness essentials", href: "/shop/" },
   ],
   services: [
-    { label: "General prescription support", href: "/services/" },
+    { label: "Pharmacy care", href: "/services/" },
     { label: "Pharmacist consultation", href: "/consultation/" },
-    { label: "Product catalogue", href: "/shop/" },
+    { label: "Medication review", href: "/services/" },
+    { label: "Medicine safety support", href: "/services/" },
     { label: "Prescription Support page", href: "/prescription-support/" },
   ],
   company: [

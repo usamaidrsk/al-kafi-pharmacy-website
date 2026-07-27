@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import NewsletterForm from "@/components/NewsletterForm";
 import { business } from "@/data/business";
+import { pharmacyCareServices } from "@/data/pharmacy-care-services";
 
 const heroSlides = [
   {
@@ -115,25 +116,6 @@ const medicationCategories = [
     title: "Wellness essentials",
     description: "Useful support products for immunity, recovery, and everyday wellbeing.",
     icon: PackageCheck,
-  },
-];
-
-const services = [
-  {
-    title: "Prescription support",
-    body: "Ask what to prepare before a store visit and keep prescription files out of public forms.",
-  },
-  {
-    title: "Over-the-counter guidance",
-    body: "Ask about common symptoms, suitable products, and safe medicine use.",
-  },
-  {
-    title: "Family wellness shelves",
-    body: "Find practical essentials for parents, children, students, and home care.",
-  },
-  {
-    title: "Health product checks",
-    body: "Use phone, email, or the enquiry form to ask about common medicines and essentials.",
   },
 ];
 
@@ -439,30 +421,43 @@ export default function HomePage() {
         >
           <motion.div variants={revealUp} className="max-w-3xl">
             <span className="section-kicker border-white/10 bg-white/10 text-white">
-              In-store services
+              Pharmacy services
             </span>
             <h2 className="mt-5 text-3xl font-black leading-tight md:text-5xl">
-              Practical help at the counter and on the shelf.
+              Pharmacy Care & Medicine Support
             </h2>
+            <p className="mt-5 text-base leading-8 text-[#faf5ef]/72">
+              Pharmacist-led care for medicine use, safety questions,
+              prescription support, counselling and community health education.
+            </p>
           </motion.div>
 
           <motion.div
             variants={staggerChildren}
-            className="mt-10 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-2 lg:grid-cols-4"
+            className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3"
           >
-            {services.map((item) => (
+            {pharmacyCareServices.map(({ title, description, icon: Icon, cta, href }) => (
               <motion.article
-                key={item.title}
+                key={title}
                 variants={revealUp}
-                className="bg-[#012e20] p-6"
+                className="group rounded-2xl border border-white/10 bg-white/[0.07] p-6 transition hover:-translate-y-1 hover:bg-white/[0.1]"
               >
-                <Check className="h-5 w-5 text-[#d5a94e]" />
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#d5a94e] text-[#012e20]">
+                  <Icon className="h-6 w-6" />
+                </span>
                 <h3 className="mt-5 text-xl font-black leading-tight">
-                  {item.title}
+                  {title}
                 </h3>
                 <p className="mt-3 text-sm leading-7 text-[#faf5ef]/70">
-                  {item.body}
+                  {description}
                 </p>
+                <Link
+                  href={href}
+                  className="mt-5 inline-flex items-center text-sm font-black text-[#d5a94e] transition group-hover:text-[#f0c76b]"
+                >
+                  {cta}
+                  <ArrowRight className="ml-2 h-4 w-4 transition group-hover:translate-x-0.5" />
+                </Link>
               </motion.article>
             ))}
           </motion.div>

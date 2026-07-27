@@ -106,11 +106,13 @@ const organizationJsonLd = {
   address: pharmacyAddress,
   areaServed: ["Nakasero", "Kampala"],
   availableService: [
-    "Prescription support",
-    "Over-the-counter medicines",
-    "Family wellness essentials",
-    "First aid and hygiene products",
-    "In-store pharmacist guidance",
+    "Pharmacist consultation",
+    "Prescription dispensing",
+    "Medication counselling and review",
+    "Medication adherence support",
+    "Medicine information service",
+    "Medicine safety and side-effect support",
+    "Community health education",
   ],
 };
 
