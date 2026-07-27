@@ -11,6 +11,7 @@ const routes = [
   "/services/",
   "/shop/",
   "/consultation/",
+  "/community-programmes/",
   "/health-hub/",
   "/locations/",
   "/contact/",

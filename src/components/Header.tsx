@@ -15,6 +15,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Brand from "./Brand";
 import { business } from "@/data/business";
+import { communityProgrammes } from "@/data/community-programmes";
+import { pharmacyServiceGroups } from "@/data/pharmacy-care-services";
 
 const navGroups = [
   {
@@ -48,14 +50,19 @@ const navGroups = [
     activeIds: ["categories", "services", "consultation"],
     items: [
       {
-        label: "Medicine categories",
-        href: "/shop/",
-        description: "Prescriptions, OTC care, wellness, hygiene, and first aid.",
+        label: "Pharmacy care",
+        href: "/services/#pharmacy-care-medicine-support",
+        description: "Consultation, dispensing, reviews, adherence and safety support.",
       },
       {
-        label: "Pharmacy care",
-        href: "/services/",
-        description: "Consultation, dispensing, reviews, adherence and safety support.",
+        label: "Preventive support",
+        href: "/services/#preventive-lifestyle-support",
+        description: "Monitoring, risk guidance, smoking support and referrals.",
+      },
+      {
+        label: "Products and devices",
+        href: "/shop/",
+        description: "OTC care, wellness, baby care, hygiene, first aid and devices.",
       },
       {
         label: "Prescription Support",
@@ -82,12 +89,17 @@ const navGroups = [
   },
   {
     label: "Impact",
-    activeIds: ["trust"],
+    activeIds: ["trust", "community-programmes"],
     items: [
       {
         label: "Uganda market focus",
         href: "/about/",
         description: "Built around Kampala pharmacy and household-care needs.",
+      },
+      {
+        label: "Community Health Programmes",
+        href: "/community-programmes/",
+        description: "Pharmacist-led education, outreach and awareness sessions.",
       },
       {
         label: "Accessibility",
@@ -102,21 +114,29 @@ const navSectionIds = Array.from(
   new Set(navGroups.flatMap((group) => group.activeIds))
 );
 
+const serviceSearchItems = pharmacyServiceGroups.flatMap((group) => [
+  {
+    label: group.title,
+    href: `/services/#${group.id}`,
+    type: "Section",
+  },
+  ...group.cards.map((item) => ({
+    label: item.title,
+    href:
+      group.id === "products-devices-everyday-health"
+        ? "/shop/"
+        : `/services/#${group.id}`,
+    type: group.id === "products-devices-everyday-health" ? "Category" : "Service",
+  })),
+]);
+
 const searchItems = [
-  { label: "Pharmacy Care & Medicine Support", href: "/services/", type: "Service" },
-  { label: "Prescription dispensing", href: "/services/", type: "Service" },
-  { label: "Medication counselling and review", href: "/services/", type: "Service" },
-  { label: "Medication adherence support", href: "/services/", type: "Service" },
-  { label: "Medicine information service", href: "/services/", type: "Service" },
-  { label: "Medicine safety and side-effect support", href: "/services/", type: "Service" },
-  { label: "Community health education", href: "/services/", type: "Service" },
-  { label: "Pain and fever relief", href: "/shop/", type: "Category" },
-  { label: "Cough, cold and flu", href: "/shop/", type: "Category" },
-  { label: "Vitamins and supplements", href: "/shop/", type: "Category" },
-  { label: "Baby care and hygiene", href: "/shop/", type: "Category" },
-  { label: "First aid essentials", href: "/shop/", type: "Category" },
-  { label: "Personal hygiene", href: "/shop/", type: "Category" },
-  { label: "Wellness essentials", href: "/shop/", type: "Category" },
+  ...serviceSearchItems,
+  ...communityProgrammes.map((item) => ({
+    label: item.title,
+    href: "/community-programmes/",
+    type: "Programme",
+  })),
   { label: "Pharmacist consultation", href: "/consultation/", type: "Service" },
   { label: "Ask about dosage and safe use", href: "/consultation/", type: "Service" },
   { label: "Uganda market focus", href: "/about/", type: "Section" },
@@ -132,6 +152,7 @@ export const Header = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [query, setQuery] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [openNavGroup, setOpenNavGroup] = useState<string | null>(null);
 
   const normalizedQuery = query.trim().toLowerCase();
   const results = normalizedQuery
@@ -191,11 +212,22 @@ export const Header = () => {
   const closeSearch = () => {
     setIsSearchOpen(false);
     setIsMobileMenuOpen(false);
+    setOpenNavGroup(null);
   };
 
   const openSearch = () => {
     setIsMobileMenuOpen(false);
+    setOpenNavGroup(null);
     setIsSearchOpen(true);
+  };
+
+  const closeNavMenus = () => {
+    setOpenNavGroup(null);
+    setIsMobileMenuOpen(false);
+
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
   };
 
   const searchButton = (
@@ -263,11 +295,31 @@ export const Header = () => {
 
         <div className="flex items-center justify-end gap-2">
           <div className="hidden items-center gap-1 xl:flex" aria-label="Primary navigation">
-            {navGroups.map((group) => (
-              <div key={group.label} className="group/nav relative">
+            {navGroups.map((group) => {
+              const isOpen = openNavGroup === group.label;
+
+              return (
+              <div
+                key={group.label}
+                className="relative"
+                onMouseEnter={() => setOpenNavGroup(group.label)}
+                onMouseLeave={() => setOpenNavGroup(null)}
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") {
+                    setOpenNavGroup(null);
+                  }
+                }}
+              >
                 <button
                   type="button"
                   aria-haspopup="menu"
+                  aria-expanded={isOpen}
+                  onClick={() =>
+                    setOpenNavGroup((current) =>
+                      current === group.label ? null : group.label
+                    )
+                  }
+                  onFocus={() => setOpenNavGroup(group.label)}
                   className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[15px] font-bold transition ${
                     group.activeIds.includes(activeSection)
                       ? "bg-white text-[#012e20] shadow-[0_10px_28px_rgba(1,46,32,0.08)]"
@@ -275,10 +327,20 @@ export const Header = () => {
                   }`}
                 >
                   {group.label}
-                  <ChevronDown className="h-4 w-4 text-[#a63b2f] transition group-hover/nav:translate-y-0.5" />
+                  <ChevronDown
+                    className={`h-4 w-4 text-[#a63b2f] transition ${
+                      isOpen ? "translate-y-0.5 rotate-180" : ""
+                    }`}
+                  />
                 </button>
 
-                <div className="pointer-events-none absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 translate-y-2 pt-4 opacity-0 transition duration-200 group-hover/nav:pointer-events-auto group-hover/nav:translate-y-0 group-hover/nav:opacity-100 group-focus-within/nav:pointer-events-auto group-focus-within/nav:translate-y-0 group-focus-within/nav:opacity-100">
+                <div
+                  className={`absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 pt-4 transition duration-200 ${
+                    isOpen
+                      ? "pointer-events-auto translate-y-0 opacity-100"
+                      : "pointer-events-none translate-y-2 opacity-0"
+                  }`}
+                >
                   <div
                     role="menu"
                     aria-label={`${group.label} menu`}
@@ -289,6 +351,7 @@ export const Header = () => {
                         key={`${group.label}-${item.label}`}
                         href={item.href}
                         role="menuitem"
+                        onClick={closeNavMenus}
                         className="block rounded-xl px-4 py-3 transition hover:bg-[#faf5ef] focus:bg-[#faf5ef]"
                       >
                         <span className="block text-sm font-black text-[#012e20]">
@@ -302,7 +365,8 @@ export const Header = () => {
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
           <Link
             href="/consultation/"
@@ -350,7 +414,7 @@ export const Header = () => {
                         <Link
                           key={`${group.label}-${item.label}`}
                           href={item.href}
-                          onClick={() => setIsMobileMenuOpen(false)}
+                          onClick={closeNavMenus}
                           className="rounded-xl px-3 py-3 text-sm font-semibold text-slate-700 hover:bg-white"
                         >
                           {item.label}

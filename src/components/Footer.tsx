@@ -15,23 +15,24 @@ import { business } from "@/data/business";
 
 const footerLinks = {
   categories: [
-    { label: "Prescription medicines", href: "/shop/" },
-    { label: "Pain and fever relief", href: "/shop/" },
-    { label: "Cold and flu care", href: "/shop/" },
-    { label: "Baby and hygiene", href: "/shop/" },
-    { label: "First aid essentials", href: "/shop/" },
-    { label: "Personal hygiene", href: "/shop/" },
-    { label: "Wellness essentials", href: "/shop/" },
+    { label: "OTC and self-care", href: "/shop/" },
+    { label: "Cough, cold and allergy", href: "/shop/" },
+    { label: "Vitamins and supplements", href: "/shop/" },
+    { label: "Mother and baby care", href: "/shop/" },
+    { label: "First aid and wound care", href: "/shop/" },
+    { label: "Medical devices", href: "/shop/" },
   ],
   services: [
-    { label: "Pharmacy care", href: "/services/" },
+    { label: "Pharmacy care", href: "/services/#pharmacy-care-medicine-support" },
+    { label: "Preventive support", href: "/services/#preventive-lifestyle-support" },
     { label: "Pharmacist consultation", href: "/consultation/" },
     { label: "Medication review", href: "/services/" },
     { label: "Medicine safety support", href: "/services/" },
-    { label: "Prescription Support page", href: "/prescription-support/" },
+    { label: "Prescription Support", href: "/prescription-support/" },
   ],
   company: [
     { label: "About Al Kaafi", href: "/about/" },
+    { label: "Community Programmes", href: "/community-programmes/" },
     { label: "Health hub", href: "/health-hub/" },
     { label: "Locations", href: "/locations/" },
     { label: "Careers", href: "/careers/" },
@@ -82,7 +83,7 @@ const Footer = () => {
         </div>
 
         <div className="grid gap-9 py-10 sm:grid-cols-2 lg:grid-cols-[0.95fr_0.95fr_0.85fr_0.75fr_0.85fr_1.1fr]">
-          <FooterColumn title="Medication Categories" links={footerLinks.categories} />
+          <FooterColumn title="Product Categories" links={footerLinks.categories} />
           <FooterColumn title="Pharmacy Services" links={footerLinks.services} />
           <FooterColumn title="Al Kaafi" links={footerLinks.company} />
           <FooterColumn title="Socials" links={footerLinks.socials} />

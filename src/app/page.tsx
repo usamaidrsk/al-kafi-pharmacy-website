@@ -6,24 +6,24 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import {
   ArrowRight,
-  Baby,
-  Bandage,
   Check,
   Clock3,
-  Droplets,
-  HeartPulse,
   Mail,
   MapPin,
-  PackageCheck,
   Phone,
   PillBottle,
   ShieldCheck,
-  Sparkles,
   Stethoscope,
 } from "lucide-react";
 import NewsletterForm from "@/components/NewsletterForm";
 import { business } from "@/data/business";
-import { pharmacyCareServices } from "@/data/pharmacy-care-services";
+import { featuredCommunityProgrammes } from "@/data/community-programmes";
+import {
+  pharmacyCareServices,
+  preventiveLifestyleServices,
+  productEverydayHealthServices,
+  serviceAvailabilityNotice,
+} from "@/data/pharmacy-care-services";
 
 const heroSlides = [
   {
@@ -73,49 +73,6 @@ const quickLinks = [
     detail: "Public holiday access available",
     href: "#visit",
     icon: Clock3,
-  },
-];
-
-const medicationCategories = [
-  {
-    title: "Prescription medicines",
-    description: "Prescription support information without collecting files online.",
-    icon: PillBottle,
-  },
-  {
-    title: "Pain and fever relief",
-    description: "Options for headaches, body pain, fever, and inflammation support.",
-    icon: HeartPulse,
-  },
-  {
-    title: "Cough, cold and flu",
-    description: "Relief products for seasonal symptoms and family medicine boxes.",
-    icon: Sparkles,
-  },
-  {
-    title: "Vitamins and supplements",
-    description: "Daily wellness support for energy, recovery, and immunity routines.",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Baby and hygiene care",
-    description: "Baby essentials, hygiene products, and practical family care items.",
-    icon: Baby,
-  },
-  {
-    title: "First aid essentials",
-    description: "Bandages, antiseptics, thermometers, masks, and wound care basics.",
-    icon: Bandage,
-  },
-  {
-    title: "Personal hygiene",
-    description: "Soaps, sanitizers, oral care, feminine care, and daily basics.",
-    icon: Droplets,
-  },
-  {
-    title: "Wellness essentials",
-    description: "Useful support products for immunity, recovery, and everyday wellbeing.",
-    icon: PackageCheck,
   },
 ];
 
@@ -375,7 +332,7 @@ export default function HomePage() {
             className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between"
           >
             <div>
-              <span className="section-kicker">Medicine categories</span>
+              <span className="section-kicker">Products and devices</span>
               <h2 className="mt-5 max-w-3xl text-3xl font-black leading-tight text-slate-950 md:text-5xl">
                 Trusted Essentials for everyday health.
               </h2>
@@ -390,11 +347,11 @@ export default function HomePage() {
             variants={staggerChildren}
             className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
           >
-            {medicationCategories.map(({ title, description, icon: Icon }) => (
+            {productEverydayHealthServices.map(({ title, description, icon: Icon, cta, href }) => (
               <motion.article
                 key={title}
                 variants={revealUp}
-                className="group rounded-2xl border border-[#012e20]/10 bg-white p-6 shadow-[0_18px_46px_rgba(1,46,32,0.06)] transition hover:-translate-y-1 hover:shadow-[0_28px_64px_rgba(1,46,32,0.1)]"
+                className="group flex min-h-full flex-col rounded-2xl border border-[#012e20]/10 bg-white p-6 shadow-[0_18px_46px_rgba(1,46,32,0.06)] transition hover:-translate-y-1 hover:shadow-[0_28px_64px_rgba(1,46,32,0.1)]"
               >
                 <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#f1e5c9] text-[#012e20] transition group-hover:bg-[#d5a94e]">
                   <Icon className="h-6 w-6" />
@@ -402,12 +359,26 @@ export default function HomePage() {
                 <h3 className="mt-5 text-xl font-black leading-tight text-slate-950">
                   {title}
                 </h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
+                <p className="mt-3 flex-1 text-sm leading-7 text-slate-600">
                   {description}
                 </p>
+                <Link
+                  href={href}
+                  className="mt-5 inline-flex items-center text-sm font-black text-[#012e20] transition hover:text-[#10492e]"
+                >
+                  {cta}
+                  <ArrowRight className="ml-2 h-4 w-4 text-[#d5a94e]" />
+                </Link>
               </motion.article>
             ))}
           </motion.div>
+
+          <motion.p
+            variants={revealUp}
+            className="mt-6 rounded-2xl border border-[#012e20]/10 bg-white/70 p-5 text-sm font-semibold leading-7 text-slate-700"
+          >
+            {serviceAvailabilityNotice}
+          </motion.p>
         </motion.div>
       </section>
 
@@ -427,8 +398,9 @@ export default function HomePage() {
               Pharmacy Care & Medicine Support
             </h2>
             <p className="mt-5 text-base leading-8 text-[#faf5ef]/72">
-              Pharmacist-led care for medicine use, safety questions,
-              prescription support, counselling and community health education.
+              Pharmacist-led support for safe medicine use, prescription
+              dispensing, medication review, adherence, safety concerns and
+              community education.
             </p>
           </motion.div>
 
@@ -437,6 +409,49 @@ export default function HomePage() {
             className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3"
           >
             {pharmacyCareServices.map(({ title, description, icon: Icon, cta, href }) => (
+              <motion.article
+                key={title}
+                variants={revealUp}
+                className="group rounded-2xl border border-white/10 bg-white/[0.07] p-6 transition hover:-translate-y-1 hover:bg-white/[0.1]"
+              >
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#d5a94e] text-[#012e20]">
+                  <Icon className="h-6 w-6" />
+                </span>
+                <h3 className="mt-5 text-xl font-black leading-tight">
+                  {title}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-[#faf5ef]/70">
+                  {description}
+                </p>
+                <Link
+                  href={href}
+                  className="mt-5 inline-flex items-center text-sm font-black text-[#d5a94e] transition group-hover:text-[#f0c76b]"
+                >
+                  {cta}
+                  <ArrowRight className="ml-2 h-4 w-4 transition group-hover:translate-x-0.5" />
+                </Link>
+              </motion.article>
+            ))}
+          </motion.div>
+
+          <motion.div variants={revealUp} className="mt-16 max-w-3xl">
+            <span className="section-kicker border-white/10 bg-white/10 text-white">
+              Preventive care
+            </span>
+            <h2 className="mt-5 text-3xl font-black leading-tight md:text-5xl">
+              Preventive & Lifestyle Support
+            </h2>
+            <p className="mt-5 text-base leading-8 text-[#faf5ef]/72">
+              Practical services that help customers monitor key health
+              measures, understand risk factors and access appropriate care.
+            </p>
+          </motion.div>
+
+          <motion.div
+            variants={staggerChildren}
+            className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+          >
+            {preventiveLifestyleServices.map(({ title, description, icon: Icon, cta, href }) => (
               <motion.article
                 key={title}
                 variants={revealUp}
@@ -558,6 +573,68 @@ export default function HomePage() {
                 <p className="mt-3 text-sm leading-7 text-slate-600">
                   {item.body}
                 </p>
+              </motion.article>
+            ))}
+          </motion.div>
+        </motion.div>
+      </section>
+
+      <section
+        id="community-programmes"
+        className="bg-[#f1e5c9]/55 px-5 py-14 md:px-6 md:py-16 lg:py-20"
+      >
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={staggerChildren}
+          className="mx-auto max-w-7xl"
+        >
+          <motion.div
+            variants={revealUp}
+            className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between"
+          >
+            <div>
+              <span className="section-kicker">Community health</span>
+              <h2 className="mt-5 max-w-3xl text-3xl font-black leading-tight text-slate-950 md:text-5xl">
+                Programmes for safer medicine use and prevention.
+              </h2>
+            </div>
+            <Link
+              href="/community-programmes/"
+              className="inline-flex items-center text-sm font-black text-[#012e20] transition hover:text-[#10492e]"
+            >
+              View all programmes
+              <ArrowRight className="ml-2 h-4 w-4 text-[#d5a94e]" />
+            </Link>
+          </motion.div>
+
+          <motion.div
+            variants={staggerChildren}
+            className="mt-10 grid gap-5 md:grid-cols-3"
+          >
+            {featuredCommunityProgrammes.map(({ title, description, icon: Icon, cta }) => (
+              <motion.article
+                variants={revealUp}
+                key={title}
+                className="group flex min-h-full flex-col rounded-2xl border border-[#012e20]/10 bg-white p-6 shadow-[0_18px_46px_rgba(1,46,32,0.06)] transition hover:-translate-y-1 hover:shadow-[0_28px_64px_rgba(1,46,32,0.1)]"
+              >
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#012e20] text-[#d5a94e]">
+                  <Icon className="h-6 w-6" />
+                </span>
+                <h3 className="mt-5 text-xl font-black leading-tight text-slate-950">
+                  {title}
+                </h3>
+                <p className="mt-3 flex-1 text-sm leading-7 text-slate-600">
+                  {description}
+                </p>
+                <Link
+                  href="/community-programmes/"
+                  className="mt-5 inline-flex items-center text-sm font-black text-[#012e20] transition group-hover:text-[#10492e]"
+                >
+                  {cta}
+                  <ArrowRight className="ml-2 h-4 w-4 text-[#d5a94e] transition group-hover:translate-x-0.5" />
+                </Link>
               </motion.article>
             ))}
           </motion.div>

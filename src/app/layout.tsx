@@ -5,11 +5,12 @@ import { MainComponent } from "@/components/MainComponent";
 import { Header } from "@/components/Header";
 import Footer from "@/components/Footer";
 import { business } from "@/data/business";
+import { pharmacyServiceGroups } from "@/data/pharmacy-care-services";
 
 const siteUrl = business.siteUrl;
 const siteName = business.displayName;
 const siteDescription =
-  "Al Kaafi Pharmacy supports central Kampala with prescription support, everyday medicine categories, family essentials, and practical pharmacist guidance.";
+  "Al Kaafi Pharmacy supports central Kampala with prescription support, pharmacist consultation, preventive guidance, everyday health products and community health programmes.";
 const defaultOgImage = "/images/og-default-1200x630.jpg";
 const pharmacyPhone = business.phoneE164;
 const pharmacyEmail = business.email;
@@ -105,15 +106,9 @@ const organizationJsonLd = {
   email: pharmacyEmail,
   address: pharmacyAddress,
   areaServed: ["Nakasero", "Kampala"],
-  availableService: [
-    "Pharmacist consultation",
-    "Prescription dispensing",
-    "Medication counselling and review",
-    "Medication adherence support",
-    "Medicine information service",
-    "Medicine safety and side-effect support",
-    "Community health education",
-  ],
+  availableService: pharmacyServiceGroups.flatMap((group) =>
+    group.cards.map((service) => service.title)
+  ),
 };
 
 const websiteJsonLd = {
