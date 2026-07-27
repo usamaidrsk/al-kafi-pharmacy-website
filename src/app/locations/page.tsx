@@ -29,7 +29,7 @@ export default function LocationsPage() {
         {
           title: "Opening hours",
           body: "Formal opening hours have not been published yet. Call before visiting if timing is critical.",
-          points: [business.weekdayHours, business.sundayHours, business.holidayHours],
+          points: [business.hoursStatus, business.holidayHours],
         },
         {
           title: "Before visiting",

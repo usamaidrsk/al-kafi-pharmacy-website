@@ -13,8 +13,7 @@ export const business = {
   addressLocality: "Nakasero, Kampala",
   addressRegion: "Central Division",
   countryCode: "UG",
-  weekdayHours: "Opening hours: to be confirmed",
-  sundayHours: "Weekend hours: to be confirmed",
-  holidayHours: "Public holiday hours: to be confirmed",
-  shortHours: "Hours to be confirmed",
+  hoursStatus: "Opening hours will be published soon",
+  holidayHours: "Public holidays: open",
+  shortHours: "Opening hours will be published soon",
 };

@@ -49,12 +49,6 @@ const footerLinks = {
   ],
 };
 
-const openingHours = [
-  business.weekdayHours,
-  business.sundayHours,
-  business.holidayHours,
-];
-
 const Footer = () => {
   return (
     <footer className="relative overflow-hidden bg-[#012e20] px-5 pb-8 pt-14 text-white md:px-6">
@@ -109,13 +103,11 @@ const Footer = () => {
               </ContactLine>
             </div>
 
-            <div className="mt-6 space-y-3">
-              {openingHours.map((item) => (
-                <div key={item} className="flex items-start gap-3 text-sm text-[#faf5ef]/72">
-                  <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-[#d5a94e]" />
-                  <span className="leading-6">{item}</span>
-                </div>
-              ))}
+            <div className="mt-6 flex items-start gap-3 text-sm text-[#faf5ef]/72">
+              <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-[#d5a94e]" />
+              <span className="leading-6">
+                {business.hoursStatus}. {business.holidayHours}.
+              </span>
             </div>
           </div>
         </div>

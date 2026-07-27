@@ -24,8 +24,8 @@ export default function PrescriptionPortalPage() {
           body: "Do not upload or submit prescription files, lab reports, diagnoses, patient IDs, insurance details, or payment-card information through public forms.",
         },
         {
-          title: "Future portal requirements",
-          body: "A prescription portal should be a separate application and data boundary with stronger authentication, access controls, audit logs, retention rules, and pharmacist review.",
+          title: "Secure workflow requirement",
+          body: "Any future prescription-support system should be separate from the public website and include stronger authentication, access controls, audit logs, retention rules, and pharmacist review.",
         },
         {
           title: "Safe next step",

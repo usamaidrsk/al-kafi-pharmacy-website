@@ -57,19 +57,19 @@ const heroSlides = [
 const quickLinks = [
   {
     label: "Prescription support",
-    detail: "Guidance without public file uploads",
+    detail: "Pharmacist led guidance and dispensing",
     href: "/prescription-support/",
     icon: Stethoscope,
   },
   {
-    label: "Everyday medicine shelf",
-    detail: "Pain, flu, wellness, and first aid",
+    label: "OTC & Wellness Essentials",
+    detail: "Over the counter care, first aid and everyday health support",
     href: "#categories",
     icon: PillBottle,
   },
   {
-    label: "Nakasero location",
-    detail: "Opening hours to be confirmed",
+    label: "Visit us in Nakasero",
+    detail: "Public holiday access available",
     href: "#visit",
     icon: Clock3,
   },
@@ -395,12 +395,12 @@ export default function HomePage() {
             <div>
               <span className="section-kicker">Medicine categories</span>
               <h2 className="mt-5 max-w-3xl text-3xl font-black leading-tight text-slate-950 md:text-5xl">
-                Clear shelves for everyday medicine needs.
+                Trusted Essentials for everyday health.
               </h2>
             </div>
             <p className="max-w-md text-base leading-7 text-slate-600">
-              Browse the main areas customers ask for most before visiting the
-              pharmacy in Nakasero.
+              Explore pharmacy, wellness, first aid, and personal care
+              categories selected for quality, convenience, and responsible use.
             </p>
           </motion.div>
 
