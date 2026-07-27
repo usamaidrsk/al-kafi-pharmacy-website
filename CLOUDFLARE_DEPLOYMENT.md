@@ -101,8 +101,15 @@ lines, or a `Bearer ` prefix. If CI reports `Headers.set` with an invalid
 header value, recreate `CLOUDFLARE_API_TOKEN` first, then `CLOUDFLARE_ACCOUNT_ID`
 if the error remains.
 
-The GitHub workflow also normalizes accidental whitespace before deploying, but
-the secrets should still be stored cleanly in GitHub.
+The GitHub workflow also normalizes accidental whitespace, `KEY=value` prefixes,
+and surrounding quotes before deploying, but the secrets should still be stored
+cleanly in GitHub.
+
+The workflow verifies `CLOUDFLARE_API_TOKEN` against Cloudflare before running
+Wrangler. If verification fails with `Invalid format for Authorization header`,
+the saved GitHub secret is not the raw API token value. Delete the GitHub secret
+and create a new Cloudflare API token; Cloudflare only shows the token value
+once.
 
 The API token should be scoped only to deploy the Worker, manage Workers routes/custom domains, read the account, and access the D1 database required by this project.
 

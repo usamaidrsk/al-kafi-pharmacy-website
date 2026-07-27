@@ -32,9 +32,23 @@ jobs:
             const normalized = {};
             let failed = false;
 
+            function normalizeSecret(key, value) {
+              let compact = value.trim();
+              if (compact.startsWith(`${key}=`)) {
+                compact = compact.slice(`${key}=`.length).trim();
+              }
+              if (
+                (compact.startsWith("\"") && compact.endsWith("\"")) ||
+                (compact.startsWith("'") && compact.endsWith("'"))
+              ) {
+                compact = compact.slice(1, -1).trim();
+              }
+              return compact.replace(/\s+/g, "");
+            }
+
             for (const key of required) {
               const value = process.env[key] || "";
-              const compact = value.replace(/\s+/g, "");
+              const compact = normalizeSecret(key, value);
 
               if (!compact) {
                 console.error(`::error::${key} is missing from GitHub Actions secrets.`);
@@ -45,7 +59,7 @@ jobs:
               normalized[key] = compact;
 
               if (value !== compact) {
-                console.warn(`::warning::${key} contained whitespace/newlines and was normalized for this CI run. Recreate the GitHub secret as a clean single-line value when possible.`);
+                console.warn(`::warning::${key} contained extra formatting and was normalized for this CI run. Recreate the GitHub secret as a clean single-line value when possible.`);
               }
             }
 
@@ -58,6 +72,34 @@ jobs:
 
             for (const [key, value] of Object.entries(normalized)) {
               fs.appendFileSync(process.env.GITHUB_ENV, `${key}=${value}\n`);
+            }
+          NODE
+      - name: Verify Cloudflare API token
+        run: |
+          node <<'NODE'
+            const token = process.env.CLOUDFLARE_API_TOKEN || "";
+
+            try {
+              const response = await fetch("https://api.cloudflare.com/client/v4/user/tokens/verify", {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              });
+              const body = await response.json().catch(() => ({}));
+
+              if (!response.ok || body.success !== true) {
+                const errors = Array.isArray(body.errors)
+                  ? body.errors.map((error) => `${error.code || "unknown"}: ${error.message || "Unknown error"}`).join("; ")
+                  : "Cloudflare did not return a valid token verification response.";
+                console.error(`::error::CLOUDFLARE_API_TOKEN failed Cloudflare verification. Recreate the GitHub secret with the raw API token only. Details: ${errors}`);
+                process.exit(1);
+              }
+
+              console.log("Cloudflare API token verified.");
+            } catch (error) {
+              console.error(`::error::Could not verify CLOUDFLARE_API_TOKEN. Recreate it as the raw API token only. ${error instanceof Error ? error.message : String(error)}`);
+              process.exit(1);
             }
           NODE
       - run: npm ci
