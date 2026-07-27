@@ -211,7 +211,7 @@ const CommunityProgrammeRequestForm = () => {
         <button
           type="submit"
           disabled={isDisabled}
-          className="mt-6 inline-flex min-h-12 items-center rounded-full bg-[#012e20] px-7 text-sm font-black text-white transition hover:bg-[#10492e] disabled:cursor-not-allowed disabled:bg-slate-400"
+          className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#012e20] px-7 text-sm font-black text-white transition hover:bg-[#10492e] disabled:cursor-not-allowed disabled:bg-slate-400"
         >
           {status === "submitting" ? "Submitting..." : "Submit programme request"}
         </button>

@@ -699,7 +699,7 @@ export default function HomePage() {
           whileInView="show"
           viewport={{ once: true, amount: 0.25 }}
           variants={staggerChildren}
-          className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-center"
+          className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center"
         >
           <motion.div variants={revealUp}>
             <p className="brand-motto text-xs font-black text-[#d5a94e]">

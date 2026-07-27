@@ -90,39 +90,41 @@ const NewsletterForm = ({
         aria-hidden="true"
       />
 
-      {!compact && (
-        <label
-          className={`grid gap-2 text-sm font-bold ${
-            inverse ? "text-white" : "text-[#012e20]"
-          }`}
-        >
-          Name
-          <input
+      {!compact ? (
+        <div className="grid gap-4 md:grid-cols-2">
+          <NewsletterField
+            label="Name"
             name="full_name"
-            type="text"
-            disabled={isDisabled}
             autoComplete="name"
-            className={`min-h-12 rounded-xl border px-4 text-sm outline-none transition focus:ring-4 ${inputClass}`}
+            disabled={isDisabled}
+            inverse={inverse}
+            inputClass={inputClass}
           />
-        </label>
-      )}
-
-      <label
-        className={`grid gap-2 text-sm font-bold ${
-          inverse ? "text-white" : "text-[#012e20]"
-        }`}
-      >
-        Email address
-        <input
+          <NewsletterField
+            label="Email address"
+            name="email"
+            type="email"
+            required
+            autoComplete="email"
+            placeholder="you@example.com"
+            disabled={isDisabled}
+            inverse={inverse}
+            inputClass={inputClass}
+          />
+        </div>
+      ) : (
+        <NewsletterField
+          label="Email address"
           name="email"
           type="email"
           required
-          disabled={isDisabled}
           autoComplete="email"
           placeholder="you@example.com"
-          className={`min-h-12 rounded-xl border px-4 text-sm outline-none transition focus:ring-4 ${inputClass}`}
+          disabled={isDisabled}
+          inverse={inverse}
+          inputClass={inputClass}
         />
-      </label>
+      )}
 
       <label
         className={`flex gap-3 rounded-2xl p-4 text-sm leading-6 ${
@@ -169,7 +171,7 @@ const NewsletterForm = ({
       <button
         type="submit"
         disabled={isDisabled}
-        className="inline-flex min-h-12 w-fit items-center justify-center rounded-2xl bg-[#d5a94e] px-5 text-sm font-black text-[#012e20] transition hover:bg-[#f0c76b] disabled:cursor-not-allowed disabled:bg-slate-400 disabled:text-white"
+        className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-[#d5a94e] px-5 text-sm font-black text-[#012e20] transition hover:bg-[#f0c76b] disabled:cursor-not-allowed disabled:bg-slate-400 disabled:text-white"
       >
         {status === "submitting" ? "Subscribing..." : "Subscribe"}
         <ArrowRight className="ml-2 h-4 w-4" />
@@ -190,5 +192,46 @@ const NewsletterForm = ({
     </form>
   );
 };
+
+type NewsletterFieldProps = {
+  label: string;
+  name: string;
+  type?: string;
+  required?: boolean;
+  disabled?: boolean;
+  autoComplete?: string;
+  placeholder?: string;
+  inverse: boolean;
+  inputClass: string;
+};
+
+const NewsletterField = ({
+  label,
+  name,
+  type = "text",
+  required = false,
+  disabled = false,
+  autoComplete,
+  placeholder,
+  inverse,
+  inputClass,
+}: NewsletterFieldProps) => (
+  <label
+    className={`grid gap-2 text-sm font-bold ${
+      inverse ? "text-white" : "text-[#012e20]"
+    }`}
+  >
+    {label}
+    <input
+      name={name}
+      type={type}
+      required={required}
+      disabled={disabled}
+      autoComplete={autoComplete}
+      placeholder={placeholder}
+      className={`min-h-12 rounded-xl border px-4 text-sm outline-none transition focus:ring-4 ${inputClass}`}
+    />
+  </label>
+);
 
 export default NewsletterForm;
