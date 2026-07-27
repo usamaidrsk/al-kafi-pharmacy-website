@@ -7,6 +7,7 @@
 - Worker entry: `src/worker.ts`
 - Public database: Cloudflare D1 database named `al-kaafi-public`
 - Bot protection: Cloudflare Turnstile
+- Email notifications: Cloudflare Email Sending binding named `EMAIL`
 - Production domain: `https://alkaafipharmacy.com`
 - Required local/CI runtime: Node.js 22 or newer
 
@@ -41,6 +42,40 @@ Apply the migration:
 ```bash
 npm run db:remote
 ```
+
+## Email notifications
+
+Public form submissions are stored in D1 first, then emailed in the background:
+
+- `/contact/` notifications go to `feedback@alkaafipharmacy.com`
+- `/consultation/` notifications go to `rx@alkaafipharmacy.com`
+- Notification sender: `feedback@alkaafipharmacy.com`
+
+Enable Cloudflare Email Sending before expecting notifications:
+
+```bash
+WRANGLER_WRITE_LOGS=false npx wrangler email sending enable alkaafipharmacy.com
+WRANGLER_WRITE_LOGS=false npx wrangler email sending dns get alkaafipharmacy.com
+```
+
+Or use the dashboard:
+
+1. Cloudflare Dashboard > Compute & AI > Email Service > Email Sending.
+2. Onboard `alkaafipharmacy.com`.
+3. Let Cloudflare add SPF and DKIM records.
+4. Confirm the domain is active for sending.
+
+Also configure incoming inboxes or forwarding through Email Routing:
+
+- `feedback@alkaafipharmacy.com`
+- `rx@alkaafipharmacy.com`
+- `admin@alkaafipharmacy.com`
+- `hr@alkaafipharmacy.com`
+- `ceo@alkaafipharmacy.com`
+- `coo@alkaafipharmacy.com`
+
+Cloudflare Email Routing forwards these addresses to verified destination
+mailboxes. It does not provide a full mailbox UI by itself.
 
 ## Secrets and identifiers
 
