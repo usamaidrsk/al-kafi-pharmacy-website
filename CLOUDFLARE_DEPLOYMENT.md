@@ -111,7 +111,22 @@ the saved GitHub secret is not the raw API token value. Delete the GitHub secret
 and create a new Cloudflare API token; Cloudflare only shows the token value
 once.
 
-The API token should be scoped only to deploy the Worker, manage Workers routes/custom domains, read the account, and access the D1 database required by this project.
+The API token should be scoped only to deploy the Worker, manage Workers custom
+domains, update the DNS records Cloudflare creates for those custom domains, and
+access the D1 database required by this project.
+
+Recommended token permissions:
+
+- Account > Workers Scripts > Edit
+- Account > D1 > Edit
+- Zone > Zone > Read
+- Zone > DNS > Edit
+- Zone > Workers Routes > Edit
+
+Token resources:
+
+- Account resources: the Al Kaafi Pharmacy Cloudflare account
+- Zone resources: `alkaafipharmacy.com`
 
 ## Deploy
 
@@ -144,6 +159,15 @@ These are zone-level Cloudflare settings, not application code settings. The
 repo can declare the Worker custom domains and perform the `www` redirect, but
 SSL/TLS, DNSSEC, Always Use HTTPS, and HSTS must be confirmed in the Cloudflare
 dashboard or managed separately through Cloudflare API/Terraform.
+
+If Wrangler uploads the Worker but fails at `/workers/scripts/.../domains/records`,
+the problem is in the custom-domain step. Check both:
+
+- The API token has `Zone > Zone > Read` and `Zone > DNS > Edit`.
+- Old Firebase or hosting DNS records do not conflict with the Worker custom
+  domains. Custom Domains cannot be created on hostnames with conflicting DNS
+  records. Delete old `A`, `AAAA`, or `CNAME` records for `alkaafipharmacy.com`
+  and `www` if the Worker should own those hostnames.
 
 ## Form boundaries
 
