@@ -168,6 +168,8 @@ const staggerChildren = {
   },
 };
 
+const sectionViewport = { once: true, amount: 0.01 };
+
 export default function HomePage() {
   const [activeSlide, setActiveSlide] = useState(0);
   const slide = heroSlides[activeSlide];
@@ -290,7 +292,7 @@ export default function HomePage() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.4 }}
+          viewport={sectionViewport}
           variants={staggerChildren}
           className="mx-auto grid max-w-7xl gap-3 md:grid-cols-3"
         >
@@ -323,7 +325,7 @@ export default function HomePage() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={sectionViewport}
           variants={staggerChildren}
           className="mx-auto max-w-7xl"
         >
@@ -386,7 +388,7 @@ export default function HomePage() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={sectionViewport}
           variants={staggerChildren}
           className="mx-auto max-w-7xl"
         >
@@ -483,7 +485,7 @@ export default function HomePage() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={sectionViewport}
           variants={staggerChildren}
           className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center"
         >
@@ -535,7 +537,7 @@ export default function HomePage() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={sectionViewport}
           variants={staggerChildren}
           className="mx-auto max-w-7xl"
         >
@@ -586,7 +588,7 @@ export default function HomePage() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={sectionViewport}
           variants={staggerChildren}
           className="mx-auto max-w-7xl"
         >
@@ -645,7 +647,7 @@ export default function HomePage() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={sectionViewport}
           variants={staggerChildren}
           className="mx-auto max-w-7xl"
         >
@@ -697,7 +699,7 @@ export default function HomePage() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.25 }}
+          viewport={sectionViewport}
           variants={staggerChildren}
           className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center"
         >
@@ -736,7 +738,7 @@ export default function HomePage() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={sectionViewport}
           variants={staggerChildren}
           className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.8fr_1.2fr]"
         >
